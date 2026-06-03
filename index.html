@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yuki Kaneko — 焼肉を愛し、好奇心で生きる。</title>
+  <meta name="description" content="金子 祐生（Yuki Kaneko）のポートフォリオサイト。早稲田大学応用物理学科卒。焼肉・和牛・物理・音楽・ゲームを愛する東京在住。" />
+  <meta name="author" content="金子 祐生 / Yuki Kaneko" />
+  <meta name="keywords" content="金子祐生, Yuki Kaneko, 焼肉, 和牛, 早稲田大学, 応用物理, ポートフォリオ" />
+
+  <!-- OGP (SNSシェア用) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Yuki Kaneko — 焼肉を愛し、好奇心で生きる。" />
+  <meta property="og:description" content="金子 祐生のポートフォリオ。焼肉・和牛・物理・音楽・ゲームを愛する早稲田大学応用物理学科卒。" />
+  <meta property="og:url" content="https://yukikaneko.com/" />
+  <meta property="og:image" content="images/profile.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:site_name" content="Yuki Kaneko" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@bondskyyy" />
+  <meta name="twitter:creator" content="@bondskyyy" />
+  <meta name="twitter:title" content="Yuki Kaneko — 焼肉を愛し、好奇心で生きる。" />
+  <meta name="twitter:description" content="金子 祐生のポートフォリオ。焼肉・和牛・物理・音楽・ゲームを愛する早稲田大学応用物理学科卒。" />
+  <meta name="twitter:image" content="images/profile.jpg" />
+
+  <!-- その他のSEO・パフォーマンス -->
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#080808" />
+  <link rel="canonical" href="https://yukikaneko.com/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* 背景：わずかに温度感のある漆黒 */
+      --bg:        #070706;
+      --bg2:       #0f0f0d;
+      --bg3:       #181816;
+      /* ボーダー：白でなくゴールドトーンで統一 */
+      --border:    rgba(201,169,110,0.10);
+      --border-subtle: rgba(201,169,110,0.06);
+      /* テキスト：アイボリーに近い暖かい白 */
+      --text:      #F3EFE8;
+      --text-muted:#8C877E;
+      /* ゴールド：少し深みのあるシャンパンゴールド */
+      --gold:      #C8A86A;
+      --gold-light:#D4B88A;
+      --gold-deep: #A8843E;
+      --gold-dim:  rgba(200,168,106,0.12);
+      --gold-line: rgba(200,168,106,0.35);
+      --gold-glow: rgba(200,168,106,0.06);
+      --white10:   rgba(255,255,255,0.04);
+      --radius:    2px;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      overflow-x: hidden; /* html レベルで横はみ出しを完全封鎖 */
+      max-width: 100vw;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      overflow-x: hidden;
+      max-width: 100vw;
+      cursor: none;
+    }
+    ::selection { background: var(--gold-dim); color: var(--gold); }
+
+    /* ── Custom Cursor ── */
+    #cursor {
+      position: fixed; top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,169,110,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.3s, height 0.3s, opacity 0.3s;
+    }
+    body.cursor-hover #cursor { width: 14px; height: 14px; }
+    body.cursor-hover #cursor-ring { width: 56px; height: 56px; opacity: 0.5; }
+
+    /* ── Noise Overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.35;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-line); }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 1000;
+      display: flex; align-items: center; gap: 40px;
+      padding: 13px 32px;
+      background: rgba(7,7,6,0.75);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 0 0 rgba(200,168,106,0.15) inset,
+                  0 0 32px rgba(200,168,106,0.04);
+      border-radius: 40px;
+      transition: var(--transition);
+    }
+    nav .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    nav .nav-links {
+      display: flex; gap: 28px;
+      list-style: none;
+    }
+    nav .nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    nav .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    nav .nav-links a:hover { color: var(--gold-light); }
+    nav .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      background: none; border: none;
+      cursor: pointer; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1px;
+      background: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    /* Mobile nav */
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(8,8,8,0.97);
+      z-index: 990;
+      flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute; top: 32px; right: 32px;
+      background: none; border: none;
+      font-size: 1.5rem; color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    /* ── Smooth Scroll Hero (SmoothScrollHero port) ── */
+    #hero-scroll-container {
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+      height: calc(1500px + 100vh);
+      overflow: hidden; /* コンテナ内の横はみ出しも封鎖 */
+    }
+    #hero-video-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      max-width: 100vw;
+      overflow: hidden;
+      background: #000;
+      clip-path: polygon(25% 25%, 75% 25%, 75% 75%, 25% 75%);
+      will-change: clip-path;
+    }
+    #hero-video-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform-origin: center;
+      transform: scale(1.05);
+      will-change: transform;
+    }
+    /* Dark overlay on video */
+    #hero-video-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.45);
+      pointer-events: none;
+    }
+
+    /* ── Hero content (on top of sticky video) ── */
+    #hero {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 10;
+    }
+    /* clip枠（25%〜75%）に完全に合わせたコンテンツボックス */
+    .hero-clip-box {
+      position: absolute;
+      top: 25vh;    left: 25vw;
+      width: 50vw;  height: 50vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 4vh 3vw;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .hero-clip-box * { max-width: 100%; }
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse, rgba(200,168,106,0.07) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 1s 0.3s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6.5vw, 7rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      text-align: center;
+      color: var(--text);
+      /* 漆黒背景に溶け込まないよう極微のテキストグロー */
+      text-shadow: 0 0 80px rgba(200,168,106,0.08);
+      opacity: 0; animation: fadeUp 1s 0.5s forwards;
+    }
+    .hero-name .en {
+      font-style: italic;
+      /* シャンパンゴールドのグラデーション文字 */
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-divider {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      margin: 40px auto;
+      opacity: 0; animation: fadeUp 1s 0.8s forwards;
+    }
+    .hero-tagline {
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 400px;
+      opacity: 0; animation: fadeUp 1s 1s forwards;
+    }
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      opacity: 0; animation: fadeIn 1s 1.5s forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold-line), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ── Section Base ── */
+    section { padding: 120px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.63rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .section-label::before {
+      content: '';
+      display: block; width: 28px; height: 1px;
+      /* グラデーションラインで奥行き感 */
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+
+    /* ── Gallery ── */
+    #gallery { background: var(--bg); padding: 0 0 120px; }
+    .gallery-label {
+      max-width: 1100px; margin: 0 auto 32px;
+      padding: 0 24px;
+    }
+    .gallery-track {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3px;
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 24px;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--bg3);
+      cursor: pointer;
+    }
+    .gallery-item:first-child { aspect-ratio: 4/5; grid-row: span 2; }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+      filter: brightness(0.9);
+    }
+    .gallery-item:hover img { transform: scale(1.05); filter: brightness(1); }
+    .gallery-item::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(8,8,8,0.5));
+      pointer-events: none;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .gallery-item:hover::after { opacity: 1; }
+    @media (max-width: 640px) {
+      .gallery-track { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-row: span 1; aspect-ratio: 4/3; }
+    }
+
+    /* ── About ── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .about-headline em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, var(--gold-deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .about-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 2;
+      margin-bottom: 16px;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .stat {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--white10);
+      transition: border-color 0.4s, background 0.4s, box-shadow 0.4s;
+    }
+    .stat:hover {
+      border-color: var(--gold-line);
+      background: linear-gradient(135deg, rgba(200,168,106,0.08) 0%, rgba(200,168,106,0.04) 100%);
+      box-shadow: inset 0 1px 0 0 rgba(200,168,106,0.15);
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .about-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      filter: grayscale(15%);
+      transition: filter 0.5s, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .about-photo:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.03);
+    }
+    .about-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1px solid var(--gold-line);
+      pointer-events: none;
+    }
+
+    .about-profile-card {
+      position: relative;
+      padding: 40px;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, var(--bg3) 0%, var(--bg2) 100%);
+      /* 内側から微かにゴールドが滲む */
+      box-shadow: inset 0 0 60px rgba(200,168,106,0.03),
+                  0 1px 0 0 rgba(200,168,106,0.08);
+    }
+    .about-profile-card::before {
+      content: '';
+      position: absolute; top: -1px; left: 30px; right: 30px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-light), var(--gold), transparent);
+    }
+    .profile-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.85rem;
+    }
+    .profile-row:last-child { border-bottom: none; }
+    .profile-key {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 80px;
+    }
+    .profile-val { color: var(--text); text-align: right; }
+
+    /* ── Interests ── */
+    #interests { background: var(--bg2); }
+    .interests-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 64px;
+    }
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .interest-card {
+      background: var(--bg2);
+      padding: 36px 32px;
+      transition: background 0.4s;
+      cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .interest-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .interest-card:hover { background: var(--bg3); }
+    .interest-card:hover::after { transform: scaleX(1); }
+    .interest-icon {
+      width: 40px; height: 40px;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+    .interest-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .interest-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+    }
+    .interest-tag {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 14px;
+      border: 1px solid var(--gold-line);
+      border-radius: 20px;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      text-transform: uppercase;
+      background: rgba(200,168,106,0.04);
+    }
+
+    /* ── Works / Social ── */
+    #works { background: var(--bg); }
+    .works-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 64px;
+    }
+    .social-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .social-card {
+      position: relative; overflow: hidden;
+      padding: 48px 40px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.4s, background 0.4s;
+      cursor: pointer;
+    }
+    .social-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, var(--gold-dim), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .social-card:hover { border-color: var(--gold-line); }
+    .social-card:hover::before { opacity: 1; }
+    .social-platform {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+      position: relative; z-index: 1;
+    }
+    .social-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 12px;
+      position: relative; z-index: 1;
+    }
+    .social-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 28px;
+      position: relative; z-index: 1;
+    }
+    .social-handle {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      display: flex; align-items: center; gap: 8px;
+      position: relative; z-index: 1;
+      transition: color 0.3s;
+    }
+    .social-card:hover .social-handle { color: var(--gold); }
+    .social-arrow {
+      position: absolute; bottom: 40px; right: 40px;
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      transition: border-color 0.3s, color 0.3s, transform 0.3s;
+      z-index: 1;
+    }
+    .social-card:hover .social-arrow {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 60px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: 0.1em;
+    }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+    .footer-links {
+      display: flex; gap: 24px;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── Scroll Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.1); }
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════ */
+
+    /* ── Tablet (〜900px) ── */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .social-cards { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    /* ── Mobile (〜640px) ── */
+    @media (max-width: 640px) {
+
+      /* Nav */
+      nav {
+        top: 14px;
+        padding: 10px 18px;
+        gap: 14px;
+        /* モバイルはロゴ＋ハンバーガーのみ */
+        border-radius: 32px;
+      }
+      nav .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      /* Hero：モバイルはclip枠を広めに取り直す */
+      #hero-video-sticky {
+        /* スマホは横幅が狭いので枠をもっと広く */
+        clip-path: polygon(8% 20%, 92% 20%, 92% 80%, 8% 80%);
+      }
+      .hero-clip-box {
+        /* clip枠に合わせてリセット */
+        top: 20vh;
+        left: 8vw;
+        width: 84vw;
+        height: 60vh;
+        padding: 5vw 6vw;
+      }
+      .hero-name {
+        font-size: clamp(2.4rem, 11vw, 4rem);
+        text-align: center;
+        word-break: keep-all; /* 日本語の変な改行を防ぐ */
+      }
+      .hero-eyebrow {
+        font-size: 0.6rem;
+        letter-spacing: 0.28em;
+        white-space: nowrap;
+      }
+      .hero-tagline {
+        font-size: 0.68rem;
+        letter-spacing: 0.18em;
+      }
+      .hero-divider { height: 36px; margin: 24px auto; }
+      .hero-scroll { bottom: 24px; }
+
+      /* スクロールJS側のclip値もモバイル用に変更（下記JSで対応） */
+
+      /* Sections */
+      section { padding: 72px 20px; }
+
+      /* Gallery */
+      .gallery-track {
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        padding: 0 20px;
+      }
+      .gallery-item:first-child { grid-row: span 1; aspect-ratio: 1/1; }
+      .gallery-item { aspect-ratio: 1/1; }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      .about-headline { font-size: clamp(2rem, 8vw, 3rem); }
+      .about-photo { aspect-ratio: 3/2; }
+      .about-stats { grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; }
+      .stat { padding: 18px; }
+      .stat-number { font-size: 2rem; }
+      .about-profile-card { padding: 28px 24px; }
+
+      /* Interests */
+      .interests-grid { grid-template-columns: 1fr; }
+      .interest-card { padding: 28px 24px; }
+
+      /* Works */
+      .social-cards { grid-template-columns: 1fr; gap: 16px; }
+      .social-card { padding: 36px 28px 72px; }
+      .social-arrow { bottom: 28px; right: 28px; }
+      .works-headline { margin-bottom: 40px; }
+
+      /* Footer */
+      footer { padding: 40px 20px; }
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; gap: 16px; }
+    }
+
+    /* ── 極小 (〜375px) ── */
+    @media (max-width: 375px) {
+      .hero-name { font-size: 2.2rem; }
+      .hero-clip-box { padding: 4vw 5vw; }
+      .about-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+    }
+
+    /* ── Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Navigation -->
+  <header>
+  <nav>
+    <a href="#hero" class="nav-logo">Y.K.</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#interests">Interests</a></li>
+      <li><a href="#works">Works</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="メニューを開く" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="ナビゲーション">
+    <button class="mobile-close" onclick="closeMenu()" aria-label="閉じる">✕</button>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#interests" onclick="closeMenu()">Interests</a>
+    <a href="#works" onclick="closeMenu()">Works</a>
+  </div>
+
+  <main>
+  <!-- Smooth Scroll Hero -->
+  <div id="hero-scroll-container">
+
+    <!-- Sticky video background -->
+    <div id="hero-video-sticky">
+      <video id="hero-video-bg" src="images/hero-bg.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+      <div id="hero-video-overlay"></div>
+    </div>
+
+    <!-- Hero content overlaid on top -->
+    <section id="hero">
+    <div class="hero-glow"></div>
+
+    <!-- clip枠に合わせたコンテンツボックス -->
+    <div class="hero-clip-box">
+      <p class="hero-eyebrow">Portfolio &nbsp;—&nbsp; 2024</p>
+      <h1 class="hero-name">
+        金子 祐生<br />
+        <span class="en">Yuki Kaneko</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline">Physics · Gourmet · Culture</p>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div>
+          <p class="section-label reveal">About</p>
+          <h2 class="about-headline reveal reveal-delay-1">
+            焼肉を愛し、<br />
+            <em>好奇心</em>で生きる。
+          </h2>
+          <p class="about-text reveal reveal-delay-2">
+            1996年生まれ、東京都出身。広尾学園中学・高校を経て、1年の浪人の末に早稲田大学応用物理学科に入学・卒業。
+          </p>
+          <p class="about-text reveal reveal-delay-3">
+            物理と数学への深い探求心を持ちながら、焼肉・和牛への情熱、音楽、ゲーム、映画、野球——多彩な世界を自分なりの解像度で楽しんでいます。
+          </p>
+          <p class="about-text reveal reveal-delay-4">
+            「深く知ること」が好きです。データで野球を読み解き、指標で選手を分析する。そのマインドセットが、あらゆる趣味に染み込んでいます。
+          </p>
+        </div>
+        <div>
+          <div class="about-photo reveal reveal-delay-1">
+            <img src="images/profile.jpg" alt="金子 祐生" />
+          </div>
+          <div class="about-profile-card reveal reveal-delay-2">
+            <div class="profile-row">
+              <span class="profile-key">出身</span>
+              <span class="profile-val">東京都</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">生年月日</span>
+              <span class="profile-val">1996年7月9日</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">血液型</span>
+              <span class="profile-val">B型</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">学歴</span>
+              <span class="profile-val">早稲田大学 応用物理学科</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-key">出身校</span>
+              <span class="profile-val">広尾学園中学・高校</span>
+            </div>
+          </div>
+          <div class="about-stats">
+            <div class="stat reveal reveal-delay-3">
+              <div class="stat-number">5日</div>
+              <div class="stat-label">に1回の焼肉</div>
+            </div>
+            <div class="stat reveal reveal-delay-4">
+              <div class="stat-number">蓮爾</div>
+              <div class="stat-label">最愛のラーメン</div>
+            </div>
+            <div class="stat reveal reveal-delay-4">
+              <div class="stat-number">HP</div>
+              <div class="stat-label">Fighters ファン</div>
+            </div>
+            <div class="stat reveal reveal-delay-5">
+              <div class="stat-number">W大</div>
+              <div class="stat-label">応用物理学科卒</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    </section><!-- /hero -->
+  </div><!-- /hero-scroll-container -->
+
+  <!-- Gallery -->
+  <section id="gallery">
+    <div class="gallery-label">
+      <p class="section-label reveal">Gallery</p>
+    </div>
+    <div class="gallery-track">
+      <div class="gallery-item reveal">
+        <img src="images/yakiniku3.jpg" alt="和牛 タン" />
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <img src="images/yakiniku1.jpg" alt="和牛 ロース" />
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <img src="images/yakiniku2.jpg" alt="和牛 ユッケ" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Interests -->
+  <section id="interests">
+    <div class="container">
+      <p class="section-label reveal">Interests</p>
+      <h2 class="interests-headline reveal reveal-delay-1">
+        好きなもの、<em style="font-style:italic;color:var(--gold)">すべて</em>。
+      </h2>
+      <div class="interests-grid">
+
+        <!-- 焼肉 -->
+        <div class="interest-card reveal">
+          <svg class="interest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+            <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4"/>
+            <circle cx="12" cy="13" r="2"/>
+          </svg>
+          <h3 class="interest-title">焼肉 / 和牛</h3>
+          <p class="interest-desc">平均5日に1回のペースで焼肉店へ。和牛の部位・産地・火入れにとことんこだわる。Instagramで焼肉・グルメ情報を発信中。</p>
+          <span class="interest-tag">Gourmet</span>
+        </div>
+
+        <!-- ゲーム -->
+        <div class="interest-card reveal reveal-delay-1">
+          <svg class="interest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="6" width="20" height="12" rx="3"/>
+            <path d="M6 12h4M8 10v4"/>
+            <circle cx="15" cy="11" r="1" fill="currentColor"/>
+            <circle cx="17" cy="13" r="1" fill="currentColor"/>
+          </svg>
+          <h3 class="interest-title">ゲーム</h3>
+          <p class="interest-desc">最愛は「龍が如く」シリーズ。普段はApex・スプラトゥーン・パワプロを。ジャンルを問わず世界観に没入するタイプ。</p>
+          <span class="interest-tag">Gaming</span>
+        </div>
+
+        <!-- 音楽 -->
+        <div class="interest-card reveal reveal-delay-2">
+          <svg class="interest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+          </svg>
+          <h3 class="interest-title">音楽</h3>
+          <p class="interest-desc">ジャニーズ（SixTONES・嵐・KAT-TUN）を小学生から、ボカロを中学2年から今もずっと愛聴。ジャンルは問わず、歌詞と音の世界観を大切に。</p>
+          <span class="interest-tag">Music</span>
+        </div>
+
+        <!-- 映画 -->
+        <div class="interest-card reveal reveal-delay-1">
+          <svg class="interest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+            <path d="M7 7h.01M17 7h.01M7 11h.01M17 11h.01M12 7h.01M12 11h.01"/>
+          </svg>
+          <h3 class="interest-title">映画</h3>
+          <p class="interest-desc">Netflixを中心に洋画メイン。最愛はハリー・ポッターシリーズ。ディザスター映画の規模感と人間ドラマに心動かされる。</p>
+          <span class="interest-tag">Cinema</span>
+        </div>
+
+        <!-- 野球 -->
+        <div class="interest-card reveal reveal-delay-2">
+          <svg class="interest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M7.5 5.5C9 7 9.5 9 9 12s-1.5 5-3 6.5"/>
+            <path d="M16.5 5.5C15 7 14.5 9 15 12s1.5 5 3 6.5"/>
+          </svg>
+          <h3 class="interest-title">野球</h3>
+          <p class="interest-desc">北海道日本ハムファイターズを応援。ただ観るだけでなく、セイバーメトリクスなどの指標でデータ分析する視点が好き。</p>
+          <span class="interest-tag">Fighters</span>
+        </div>
+
+        <!-- 物理・数学 -->
+        <div class="interest-card reveal reveal-delay-3">
+          <svg class="interest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6h16M4 12h10M4 18h6"/>
+            <path d="M17 14l3-3-3-3"/>
+            <path d="M20 11h-6"/>
+          </svg>
+          <h3 class="interest-title">物理 / 数学</h3>
+          <p class="interest-desc">高校物理・数学が趣味の領域。新物理入門、体系物理、大学への数学など良質な問題集を今でも手元に。美しい論理の構造が好き。</p>
+          <span class="interest-tag">Science</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Works / Social -->
+  <section id="works">
+    <div class="container">
+      <p class="section-label reveal">Works &amp; Social</p>
+      <h2 class="works-headline reveal reveal-delay-1">発信する場所</h2>
+      <div class="social-cards">
+
+        <a href="https://www.instagram.com/gourmet_pink_/" target="_blank" rel="noopener noreferrer" class="social-card reveal reveal-delay-1">
+          <div class="social-platform">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            Instagram
+          </div>
+          <h3 class="social-title">Gourmet Pink</h3>
+          <p class="social-desc">焼肉・和牛を中心にグルメ情報を発信。東京を中心とした名店をめぐり、部位・産地・焼き加減まで深掘りして紹介します。</p>
+          <span class="social-handle">@gourmet_pink_</span>
+          <div class="social-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </a>
+
+        <a href="https://x.com/bondskyyy" target="_blank" rel="noopener noreferrer" class="social-card reveal reveal-delay-2">
+          <div class="social-platform">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            X (Twitter)
+          </div>
+          <h3 class="social-title">bondskyyy</h3>
+          <p class="social-desc">日常のつぶやき、野球のデータ分析、ゲーム・音楽・映画の感想など。気になったことを自分の言葉でシェアしています。</p>
+          <span class="social-handle">@bondskyyy</span>
+          <div class="social-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Yuki Kaneko</div>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/gourmet_pink_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://x.com/bondskyyy" target="_blank" rel="noopener noreferrer">X</a>
+      </div>
+      <p class="footer-copy">&copy; 2024 Yuki Kaneko</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── Custom Cursor ──
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top  = mouseY + 'px';
+    });
+
+    (function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top  = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('a, button, .stat, .interest-card, .social-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // ── Scroll Reveal ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Mobile Menu ──
+    function openMenu()  { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow = ''; }
+
+    // ── Smooth Scroll Hero (SmoothScrollHero port) ──
+    (function() {
+      const scrollHeight = 1500;
+      // モバイルは広めのclip枠
+      const isMobile = () => window.innerWidth <= 640;
+      const initialClip = () => isMobile() ? 8  : 25;
+      const finalClip   = () => isMobile() ? 92 : 75;
+      const videoSticky = document.getElementById('hero-video-sticky');
+      const videoBg     = document.getElementById('hero-video-bg');
+      const heroContent = document.getElementById('hero');
+
+      function lerp(a, b, t) { return a + (b - a) * Math.min(Math.max(t, 0), 1); }
+
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        const progress = y / scrollHeight; // 0→1
+
+        // Clip path: モバイル/PCで初期値を切り替え
+        const ic = initialClip(), fc = finalClip();
+        const start = lerp(ic, 0, progress);
+        const end   = lerp(fc, 100, progress);
+        if (videoSticky) {
+          videoSticky.style.clipPath =
+            `polygon(${start}% ${start}%, ${end}% ${start}%, ${end}% ${end}%, ${start}% ${end}%)`;
+        }
+
+        // Background zoom: 105% → 100% (ほぼ引き、わずかに縮む)
+        if (videoBg) {
+          const scale = lerp(1.05, 1.0, Math.min(progress * 1.3, 1));
+          videoBg.style.transform = `scale(${scale})`;
+        }
+
+        // Fade out hero text as scroll progresses
+        if (heroContent) {
+          const textOpacity = Math.max(0, 1 - progress * 2);
+          heroContent.style.opacity = textOpacity;
+        }
+
+        // Overlay: 0.45 → 0.82 as scroll goes past hero
+        const overlay = document.getElementById('hero-video-overlay');
+        if (overlay) {
+          const overlayOpacity = lerp(0.45, 0.82, Math.min(Math.max(progress - 0.3, 0) / 0.7, 1));
+          overlay.style.background = `rgba(0,0,0,${overlayOpacity.toFixed(3)})`;
+        }
+      }, { passive: true });
+
+    })();
+
+    // ── Nav scroll effect ──
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 80) {
+        nav.style.background = 'rgba(8,8,8,0.92)';
+      } else {
+        nav.style.background = 'rgba(8,8,8,0.7)';
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>

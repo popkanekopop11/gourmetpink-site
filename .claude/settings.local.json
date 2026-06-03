@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude skills *)",
+      "Bash(~/.claude/claude skills *)",
+      "Bash(npx @anthropic-ai/claude-code skills install https://github.com/anthropics/skills/tree/main/skills/frontend-design)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/yukikaneko/**)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(mkdir -p ~/.claude/skills/frontend-design)",
+      "Bash(curl -s https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/SKILL.md -o ~/.claude/skills/frontend-design/SKILL.md)",
+      "Bash(curl -s https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/LICENSE.txt -o ~/.claude/skills/frontend-design/LICENSE.txt)",
+      "Bash(nvm install *)",
+      "Bash(nvm use *)"
+    ]
+  }
+}
