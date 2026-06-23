@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BECAUSE GYM｜続かない理由を、全部潰した。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg-card: #141414;
+  --bg-elevated: #1a1a1a;
+  --text: #f0ede8;
+  --text-muted: #8a8580;
+  --accent: #c8ff00;
+  --white: #ffffff;
+  --border: #2a2a2a;
+  --font-display: 'Zen Kaku Gothic New', sans-serif;
+  --font-body: 'Noto Sans JP', sans-serif;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.manga-section {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.part-header {
+  text-align: center;
+  padding: 48px 20px 24px;
+}
+
+.part-number {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.part-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+
+/* Panel */
+.panel {
+  width: 100%;
+  border-bottom: 3px solid var(--bg);
+}
+
+.panel img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Dialogue zone - outside the image */
+.dialogue {
+  padding: 14px 20px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dialogue-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.dialogue-row.right {
+  justify-content: flex-end;
+}
+
+.dialogue-row.center {
+  justify-content: center;
+}
+
+.dialogue-row.between {
+  justify-content: space-between;
+}
+
+/* Bubble - now static, not absolute */
+.bubble {
+  background: var(--white);
+  color: #1a1a1a;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 10px 16px;
+  border-radius: 18px;
+  max-width: 70%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.bubble.small { font-size: 12px; }
+.bubble.large { font-size: 16px; font-weight: 900; }
+
+.bubble.thought {
+  background: rgba(255,255,255,0.88);
+  border: 2px dashed #ccc;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Narration - outside the image */
+.narration {
+  padding: 12px 20px;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.narration.accent {
+  color: var(--accent);
+  font-weight: 900;
+  font-family: var(--font-display);
+}
+
+.narration.bold {
+  font-weight: 700;
+}
+
+.narration.result {
+  background: rgba(200,255,0,0.1);
+  color: var(--accent);
+  font-weight: 900;
+  font-size: 20px;
+  font-family: var(--font-display);
+  padding: 16px 20px;
+  letter-spacing: 1px;
+}
+
+/* Feature label */
+.feature-label {
+  background: var(--accent);
+  color: #0a0a0a;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  padding: 10px 16px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.part-divider { height: 32px; background: var(--bg); }
+
+/* ===== MID CTA ===== */
+.mid-cta {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--bg) 0%, #111 100%);
+}
+
+.mid-cta p {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+/* ===== LP SECTION ===== */
+.lp-section {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+  text-align: center;
+  padding: 56px 0 32px;
+  letter-spacing: 2px;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--accent);
+  margin: 16px auto 0;
+}
+
+.testimonial {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.testimonial-meta { font-size: 12px; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+.testimonial-result { font-family: var(--font-display); font-size: 28px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+.testimonial-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.stat-number { font-family: var(--font-display); font-size: 32px; font-weight: 900; color: var(--accent); line-height: 1; }
+.stat-unit { font-size: 14px; font-weight: 700; }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+.price-card {
+  background: var(--bg-elevated);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.price-label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+.price-amount { font-family: var(--font-display); font-size: 42px; font-weight: 900; color: var(--text); line-height: 1; }
+.price-amount span { font-size: 18px; font-weight: 700; }
+.price-tax { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+.price-includes { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); text-align: left; }
+.price-includes li { list-style: none; font-size: 14px; color: var(--text); padding: 6px 0 6px 24px; position: relative; }
+.price-includes li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+.faq-q { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; display: flex; gap: 8px; }
+.faq-q .q-label { color: var(--accent); font-family: var(--font-display); font-weight: 900; flex-shrink: 0; }
+.faq-a { font-size: 13px; color: var(--text-muted); padding-left: 28px; line-height: 1.6; }
+
+.cta-btn {
+  display: block;
+  width: 100%;
+  padding: 18px 24px;
+  background: var(--accent);
+  color: #0a0a0a;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 60px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 24px rgba(200, 255, 0, 0.25);
+}
+
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(200, 255, 0, 0.35); }
+.cta-sub { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+.final-cta {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 64px 24px 80px;
+  text-align: center;
+}
+
+.final-cta-title { font-family: var(--font-display); font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 8px; line-height: 1.6; letter-spacing: 1px; }
+.final-cta-limit { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 24px; }
+
+footer { max-width: 480px; margin: 0 auto; padding: 32px 24px; text-align: center; border-top: 1px solid var(--border); }
+footer p { font-size: 11px; color: var(--text-muted); }
+
+.panel, .testimonial, .stat-card, .price-card, .faq-item {
+  opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.panel.visible, .testimonial.visible, .stat-card.visible, .price-card.visible, .faq-item.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+@media (min-width: 481px) {
+  .manga-section, .lp-section, .mid-cta, .final-cta, footer { max-width: 480px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PART 1 ============ -->
+<section class="manga-section">
+  <div class="part-header">
+    <div class="part-number">Part 1</div>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="panel">
+    <div class="narration">28歳、営業職。<br>仕事終わりの飲みが唯一の楽しみだった。</div>
+    <img src="素材/1-1.png" alt="">
+  </div>
+
+  <!-- 1-2 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row between">
+        <div class="bubble small">え、まあ…<br>社会人なるとさ、笑</div>
+        <div class="bubble">ちょっと太った？笑</div>
+      </div>
+    </div>
+    <img src="素材/1-2.png" alt="">
+    <div class="narration">笑って流した。けど内心めちゃくちゃ気にしてた。</div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row between">
+        <div class="bubble small">うるさいな笑</div>
+        <div class="bubble">ねー最近お腹<br>やばくない？笑</div>
+      </div>
+    </div>
+    <img src="素材/1-3.png" alt="">
+    <div class="narration">冗談だってわかってる。でも2回目だ。</div>
+  </div>
+
+  <!-- 1-4 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row center">
+        <div class="bubble thought">…いつからこうなった？</div>
+      </div>
+    </div>
+    <img src="素材/1-4.png" alt="">
+    <div class="narration">大学まで普通だった体型が、<br>気づいたら見たくないものになっていた。</div>
+  </div>
+</section>
+
+<div class="part-divider"></div>
+
+<!-- ============ PART 2 ============ -->
+<section class="manga-section">
+  <div class="part-header">
+    <div class="part-number">Part 2</div>
+    <div class="part-title">何をやっても続かない</div>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="panel">
+    <img src="素材/2-1.png" alt="">
+    <div class="narration bold">3日坊主は才能だと思った。</div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="panel">
+    <img src="素材/2-2.png" alt="">
+    <div class="narration">「糖質制限ってやつ、やってみるか…」<br>——1週間後、深夜のコンビニにいた。</div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble">膝の使いすぎですね。<br>しばらく走らないでください。</div>
+      </div>
+    </div>
+    <img src="素材/2-3.png" alt="">
+  </div>
+
+  <!-- 2-4 -->
+  <div class="panel">
+    <img src="素材/2-4.png" alt="">
+    <div class="narration">月7,000円で通い放題。<br>2ヶ月で1回しか行ってない…14,000円…</div>
+  </div>
+
+  <!-- 2-5 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row center">
+        <div class="bubble thought">意志が弱いのかな、俺。<br>何やっても続かない。</div>
+      </div>
+    </div>
+    <img src="素材/2-5.png" alt="">
+    <div class="narration accent">でも、本当に悪いのは意志の弱さじゃなかった。</div>
+  </div>
+</section>
+
+<div class="part-divider"></div>
+
+<!-- ============ PART 3 ============ -->
+<section class="manga-section">
+  <div class="part-header">
+    <div class="part-number">Part 3</div>
+    <div class="part-title">転機</div>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row between">
+        <div class="bubble">佐藤…お前<br>なんか変わった？</div>
+        <div class="bubble small">え、わかる？笑</div>
+      </div>
+    </div>
+    <img src="素材/3-1.png" alt="">
+  </div>
+
+  <!-- 3-2 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row between">
+        <div class="bubble">8キロ！？何したの？</div>
+        <div class="bubble">パーソナル行き始めてさ</div>
+      </div>
+    </div>
+    <img src="素材/3-2.png" alt="">
+    <div class="dialogue">
+      <div class="dialogue-row">
+        <div class="bubble small">パーソナルジム？高くない？</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble">俺もそう思ってた。<br>でもさ、24hジムに金払って<br>行かないのと、どっちが高い？</div>
+      </div>
+    </div>
+    <img src="素材/3-3.png" alt="">
+  </div>
+
+  <!-- 3-4 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble">"続かない理由を全部潰してくれるジム"<br>があるんだよ。</div>
+      </div>
+    </div>
+    <img src="素材/3-4.png" alt="">
+    <div class="narration">正直、半信半疑だった。</div>
+  </div>
+</section>
+
+<div class="part-divider"></div>
+
+<!-- ============ PART 4 ============ -->
+<section class="manga-section">
+  <div class="part-header">
+    <div class="part-number">Part 4</div>
+    <div class="part-title">体験してみた</div>
+  </div>
+
+  <!-- 4-1 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row between">
+        <div class="bubble thought small">パーソナルジムって<br>怖いイメージあるけど…</div>
+        <div class="bubble">お待ちしてました！</div>
+      </div>
+    </div>
+    <img src="素材/4-1.png" alt="">
+  </div>
+
+  <!-- 4-2 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble small">体重72kg、体脂肪率25%。<br>でも筋肉のベースはあるので、<br>落としやすい体ですよ。</div>
+      </div>
+    </div>
+    <img src="素材/4-2.png" alt="">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble large">2ヶ月で-7kgは<br>現実的な数字です。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-3 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble">うちが大事にしてるのは、<br>"続かない理由を潰す"ことです。</div>
+      </div>
+    </div>
+    <img src="素材/4-3.png" alt="">
+  </div>
+
+  <!-- 4-4 -->
+  <div class="panel">
+    <div class="feature-label">① 食事管理AI</div>
+    <img src="素材/4-4.png" alt="">
+    <div class="narration">写真撮るだけでカロリーもPFCも自動計算。<br>「何を食べればいいかわからない」を解決。</div>
+  </div>
+
+  <!-- 4-5 -->
+  <div class="panel">
+    <div class="feature-label">② 専属トレーナー・週2回50分</div>
+    <img src="素材/4-5.png" alt="">
+    <div class="narration">フォームを直すだけで効率が段違い。<br>YouTube見て自己流でやるのとは別物。</div>
+  </div>
+
+  <!-- 4-6 -->
+  <div class="panel">
+    <div class="feature-label">③ 完全手ぶらOK</div>
+    <img src="素材/4-6.png" alt="">
+    <div class="narration">ウェアもシューズもタオルも全部あり。<br>仕事帰りにそのまま来れる。</div>
+  </div>
+</section>
+
+<div class="part-divider"></div>
+
+<!-- ============ PART 5 ============ -->
+<section class="manga-section">
+  <div class="part-header">
+    <div class="part-number">Part 5</div>
+    <div class="part-title">2ヶ月後</div>
+  </div>
+
+  <!-- 5-1 -->
+  <div class="panel">
+    <div class="narration bold">不思議と、続いた。</div>
+    <img src="素材/5-1.png" alt="">
+    <div class="narration">"やらなきゃ"じゃなく、<br>"やれる仕組み"があったから。</div>
+  </div>
+
+  <!-- 5-2 -->
+  <div class="panel">
+    <div class="narration result">-8kg ／ 体脂肪率 25% → 18%</div>
+    <img src="素材/5-2.png" alt="">
+    <div class="dialogue">
+      <div class="dialogue-row center">
+        <div class="bubble large">…マジか。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5-3 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row right">
+        <div class="bubble">最近なんか<br>かっこよくなったよね</div>
+      </div>
+    </div>
+    <img src="素材/5-3.png" alt="">
+    <div class="narration">同じ言葉でも、こんなに嬉しく聞こえるのか。</div>
+  </div>
+
+  <!-- 5-4 -->
+  <div class="panel">
+    <div class="narration">変わったのは体型だけじゃなかった。</div>
+    <img src="素材/5-4.png" alt="">
+    <div class="narration bold">自信って、こうやって戻るんだな。</div>
+  </div>
+
+  <!-- 5-5 -->
+  <div class="panel">
+    <div class="dialogue">
+      <div class="dialogue-row between">
+        <div class="bubble">え、痩せた！？<br>何したの！？</div>
+        <div class="bubble">ちょっとな笑</div>
+      </div>
+    </div>
+    <img src="素材/5-5.png" alt="">
+    <div class="narration bold">あの一言がきっかけだった。<br>あの一言に、感謝してる。</div>
+  </div>
+</section>
+
+<!-- ===== MID CTA ===== -->
+<div class="mid-cta">
+  <p>"続かなかった自分"を<br>変える、最初の一歩。</p>
+  <a href="#" class="cta-btn">LINEで無料体験を予約する</a>
+  <div class="cta-sub">30秒で予約完了。無理な勧誘は一切しません。</div>
+</div>
+
+<!-- ============ PART 6 ============ -->
+<section class="lp-section">
+  <div class="section-title">利用者の声</div>
+
+  <div class="testimonial">
+    <div class="testimonial-meta">32歳 女性・事務職 ／ 3ヶ月</div>
+    <div class="testimonial-result">-6kg</div>
+    <div class="testimonial-text">洋服選びが楽しくなりました。鏡を見るのが嫌じゃなくなった。</div>
+  </div>
+
+  <div class="testimonial">
+    <div class="testimonial-meta">27歳 男性・エンジニア ／ 2ヶ月</div>
+    <div class="testimonial-result">-9kg</div>
+    <div class="testimonial-text">周りの反応が変わって自信がついた。仕事のパフォーマンスも上がった気がする。</div>
+  </div>
+
+  <div class="testimonial">
+    <div class="testimonial-meta">35歳 男性・経営者 ／ 2ヶ月</div>
+    <div class="testimonial-result">-7kg</div>
+    <div class="testimonial-text">食事管理AIが神。考えなくていいのが続く理由。忙しい人ほど合ってる。</div>
+  </div>
+
+  <div class="section-title">数字で見る実績</div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">2,400<span class="stat-unit">名</span></div>
+      <div class="stat-label">累計利用者数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">-7<span class="stat-unit">kg</span></div>
+      <div class="stat-label">平均減量（2ヶ月）</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">94<span class="stat-unit">%</span></div>
+      <div class="stat-label">継続率</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">4.8<span class="stat-unit">/5.0</span></div>
+      <div class="stat-label">顧客満足度</div>
+    </div>
+  </div>
+
+  <div class="section-title">料金</div>
+
+  <div class="price-card">
+    <div class="price-label">2ヶ月コース</div>
+    <div class="price-amount"><span>月額</span> 29,800<span>円</span></div>
+    <div class="price-tax">（税込）</div>
+    <ul class="price-includes">
+      <li>週2回 パーソナルトレーニング（50分）</li>
+      <li>食事管理AI 使い放題</li>
+      <li>ウェア・シューズ・タオル レンタル</li>
+      <li>体組成測定（毎回）</li>
+      <li>初回無料体験あり</li>
+    </ul>
+  </div>
+
+  <div class="section-title">よくある質問</div>
+
+  <div class="faq-item">
+    <div class="faq-q"><span class="q-label">Q.</span> 運動経験ゼロでも大丈夫？</div>
+    <div class="faq-a">会員の70%が初心者スタートです。トレーナーが一からサポートします。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q"><span class="q-label">Q.</span> 食事制限は厳しい？</div>
+    <div class="faq-a">制限ではなく選び方を変えるだけ。飲み会もOKです。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q"><span class="q-label">Q.</span> 2ヶ月で本当に変わる？</div>
+    <div class="faq-a">平均-7kg。体組成データで毎週変化を確認できます。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q"><span class="q-label">Q.</span> 無理な勧誘はない？</div>
+    <div class="faq-a">一切ありません。体験後にゆっくり考えてください。</div>
+  </div>
+</section>
+
+<!-- ============ PART 7 ============ -->
+<div class="final-cta">
+  <div class="final-cta-title">2ヶ月後、<br>鏡の前で笑える自分へ。</div>
+  <div class="final-cta-limit">無料体験 毎月先着20名限定</div>
+  <a href="#" class="cta-btn">無料で体験してみる</a>
+  <div class="cta-sub">30秒で予約完了。無理な勧誘は一切しません。</div>
+</div>
+
+<footer>
+  <p>&copy; BECAUSE GYM</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.panel, .testimonial, .stat-card, .price-card, .faq-item').forEach(el => {
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
