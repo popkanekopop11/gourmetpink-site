@@ -3,282 +3,411 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>広尾学園3期生 同窓会 ｜ 出席ボード</title>
+<title>広尾学園3期生 同窓会 ｜ 出席マップ（あるける会場）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --navy:#101c44;--navy2:#1a2a63;--sky:#5aa9e6;--gold:#ffd447;--white:#f7f7ef;--shadow:#05050c;
-    --hot:#e23b2e;--warm:#f0883e;--cool:#8f96a3;
-    --win:"DotGothic16",sans-serif;--tit:"Press Start 2P",monospace;
-  }
+  :root{--navy:#101c44;--navy2:#1a2a63;--sky:#5aa9e6;--gold:#ffd447;--white:#f7f7ef;--shadow:#05050c;--win:"DotGothic16",sans-serif;--tit:"Press Start 2P",monospace}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:#06070f;color:var(--white);font-family:var(--win);font-size:16px;line-height:1.8;image-rendering:pixelated;-webkit-font-smoothing:none;min-height:100svh}
+  body{background:#06070f;color:var(--white);font-family:var(--win);font-size:16px;line-height:1.8;image-rendering:pixelated;-webkit-font-smoothing:none;min-height:100svh;display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 8px 24px}
   .scan{position:fixed;inset:0;z-index:60;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);mix-blend-mode:multiply;opacity:.45}
   ::selection{background:var(--gold);color:var(--navy)}
   a{color:var(--gold);text-decoration:none}
-  .wrap{max-width:940px;margin:0 auto;padding:0 14px}
 
-  .toggle{position:fixed;bottom:14px;right:14px;z-index:55;font-family:var(--win);font-size:13px;color:var(--navy);background:var(--gold);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:9px 13px}
+  .toggle{position:fixed;top:12px;right:12px;z-index:70;font-family:var(--win);font-size:13px;color:var(--navy);background:var(--gold);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:8px 12px}
   .toggle:active{transform:translateY(2px)}
+  .rechar{position:fixed;top:12px;left:12px;z-index:70;font-family:var(--win);font-size:12px;color:var(--white);background:var(--navy);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:8px 12px;cursor:pointer}
+  .rechar:active{transform:translateY(2px)}
 
-  header{padding:22px 0 12px;text-align:center}
-  .badge{display:inline-block;font-family:var(--tit);font-size:10px;color:var(--navy);background:var(--gold);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:7px 11px;margin-bottom:14px}
-  h1{font-family:var(--win);font-weight:400;font-size:clamp(24px,5.6vw,40px);line-height:1.3;letter-spacing:.05em;text-shadow:3px 3px 0 var(--shadow),2px 2px 0 var(--navy2)}
-  h1 .g{color:var(--gold)}
-  .sub{color:var(--sky);font-size:13px;margin-top:8px}
+  .head{width:100%;max-width:620px;text-align:center;margin-top:44px}
+  .badge{display:inline-block;font-family:var(--tit);font-size:10px;color:var(--navy);background:var(--gold);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:6px 10px;margin-bottom:8px}
+  .head h1{font-family:var(--win);font-weight:400;font-size:clamp(20px,4.6vw,30px);line-height:1.25;letter-spacing:.04em;text-shadow:3px 3px 0 var(--shadow),2px 2px 0 var(--navy2)}
+  .head h1 .g{color:var(--gold)}
 
-  /* count board */
-  .count{max-width:520px;margin:16px auto 6px;background:var(--navy);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:14px 18px;text-align:center}
-  .count .n{font-family:var(--tit);font-size:34px;color:var(--gold);text-shadow:2px 2px 0 var(--shadow)}
-  .count .lb{font-size:14px;color:var(--white)}
-  .count .demo{display:block;font-size:12px;color:var(--sky);margin-top:6px}
+  /* live feed + counter */
+  .feedbar{width:100%;max-width:620px;background:var(--navy);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:10px 14px;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;justify-content:space-between}
+  .feedbar .feed{flex:1 1 220px;font-size:14px;min-height:1.6em;color:var(--white);overflow:hidden}
+  .feedbar .feed.flash{animation:flash .5s ease}
+  .feedbar .feed b{color:var(--gold);font-weight:400}
+  @keyframes flash{0%{transform:translateY(8px);opacity:0}100%{transform:none;opacity:1}}
+  .feedbar .count{white-space:nowrap;font-size:14px;color:var(--sky)}
+  .feedbar .count b{font-family:var(--tit);font-size:22px;color:var(--gold);text-shadow:2px 2px 0 var(--shadow);display:inline-block;vertical-align:-2px}
+  .feedbar .count b.bump{animation:bump .45s ease}
+  @keyframes bump{0%{transform:scale(1) translateY(-2px)}45%{transform:scale(1.35) translateY(-2px);color:#fff}100%{transform:scale(1) translateY(-2px)}}
 
-  /* legend + seat button */
-  .bar{max-width:760px;margin:14px auto;display:flex;justify-content:center;align-items:center;gap:10px 20px;flex-wrap:wrap}
-  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--white)}
-  .legend i{display:inline-block;width:15px;height:15px;border:2px solid var(--white);vertical-align:-3px;margin-right:5px}
-  .legend .h{background:var(--hot)}.legend .w{background:var(--warm)}.legend .c{background:var(--cool)}
-  .seatbtn{font-family:var(--win);font-size:17px;color:var(--navy);background:var(--gold);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:12px 24px;cursor:pointer}
-  .seatbtn:active{transform:translateY(2px)}
-  .seatbtn .bl{animation:bl 1s steps(1) infinite}
-  @keyframes bl{50%{opacity:0}}
+  /* actions */
+  .actions{width:100%;max-width:620px;display:flex;gap:10px;flex-wrap:wrap}
+  .act{flex:1 1 200px;font-family:var(--win);font-size:16px;text-align:center;cursor:pointer;color:var(--navy);background:var(--gold);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:12px 10px}
+  .act:active{transform:translateY(2px)}
+  .act.ghost{color:var(--white);background:var(--navy);text-decoration:none}
+  .act.done{background:#2f6b2a;color:var(--white);cursor:default}
+  .act:disabled{cursor:default}
 
-  /* hall */
-  .hall{max-width:940px;margin:6px auto 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-  @media(max-width:680px){.hall{grid-template-columns:1fr}}
-  .table{background:var(--navy);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:12px}
-  .table h3{font-family:var(--win);font-size:14px;color:var(--gold);margin-bottom:10px;letter-spacing:.04em}
-  .table h3 span{color:var(--sky);font-size:12px;float:right}
-  .seats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .seat{background:#0b1430;border:2px solid #2b3a66;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:6px 3px 5px;position:relative;transition:border-color .2s,background .2s}
-  .seat.occ{background:#122152}
-  .seat .cv{width:44px;height:60px;display:block}
-  .seat .nm{font-size:11.5px;color:var(--white);margin-top:3px;text-align:center;line-height:1.25;word-break:break-all}
-  .seat .cl{font-size:10px;color:var(--sky)}
-  .seat .empty{font-size:12px;color:#48568c;margin-bottom:6px}
-  /* 行きたい度: desk tint via bottom border + nameplate */
-  .seat.hot{border-color:var(--hot)}
-  .seat.warm{border-color:var(--warm)}
-  .seat.cool{border-color:var(--cool)}
-  .seat .heat{position:absolute;top:0;left:0;right:0;height:5px}
-  .seat.hot .heat{background:var(--hot)}
-  .seat.warm .heat{background:var(--warm)}
-  .seat.cool .heat{background:var(--cool)}
-  .seat.pop{animation:pop .5s ease}
-  @keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
-  .seat.me{outline:3px solid var(--gold);outline-offset:1px}
+  .stage{position:relative;width:100%;max-width:620px}
+  canvas#game{display:block;width:100%;height:auto;border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);background:#122152}
+  /* message window overlay */
+  .msg{position:absolute;left:8px;right:8px;bottom:8px;background:var(--navy);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:14px 16px;min-height:84px;display:none}
+  .msg.show{display:block}
+  .msg::after{content:"";position:absolute;inset:4px;border:2px solid rgba(247,247,239,.22);pointer-events:none}
+  .msg .who{color:var(--gold);font-size:14px;margin-bottom:2px}
+  .msg .tx{font-size:16px;min-height:1.8em}
+  .msg .arw{position:absolute;right:14px;bottom:8px;color:var(--gold);animation:blink 1s steps(1) infinite}
+  .msg .go{display:inline-block;margin-top:8px;font-size:15px;color:var(--navy);background:var(--gold);border:2px solid var(--white);padding:7px 14px;text-decoration:none}
+  @keyframes blink{50%{opacity:0}}
 
-  /* info footer */
-  .infoline{max-width:760px;margin:8px auto;background:var(--navy);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:12px 16px;font-size:13px}
-  .infoline b{color:var(--gold);font-weight:400}
-  .infoline .tag{font-size:11px;color:var(--navy);background:var(--gold);padding:0 6px;margin-left:4px}
-  .links{text-align:center;font-size:13px;margin:16px 0;line-height:2}
-  .links a{margin:0 8px}
-  footer{text-align:center;font-size:12px;color:var(--sky);padding:18px 14px 44px;line-height:1.9}
-  footer .disc{color:#5a6a9a;font-size:11px;margin-top:8px;max-width:560px;margin-left:auto;margin-right:auto}
+  /* controls */
+  .ctrl{width:100%;max-width:620px;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:2px 4px}
+  .dpad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:4px}
+  .dpad button{font-family:var(--win);font-size:18px;color:var(--white);background:var(--navy);border:3px solid var(--white);box-shadow:0 0 0 2px var(--shadow);cursor:pointer;touch-action:none;user-select:none}
+  .dpad button:active{background:var(--navy2)}
+  .dpad .u{grid-area:1/2}.dpad .l{grid-area:2/1}.dpad .r{grid-area:2/3}.dpad .d{grid-area:3/2}
+  .dpad .c{grid-area:2/2;border:none;box-shadow:none;background:none;cursor:default}
+  .talk{font-family:var(--win);font-size:16px;color:var(--navy);background:var(--gold);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:16px 22px;cursor:pointer;touch-action:none}
+  .talk:active{transform:translateY(2px)}
+  .hint{width:100%;max-width:620px;font-size:12px;color:var(--sky);text-align:center;padding:0 4px}
 
-  /* modal */
-  .ov{position:fixed;inset:0;z-index:80;background:rgba(6,7,15,.94);display:none;align-items:center;justify-content:center;padding:16px}
-  .ov.show{display:flex}
-  .modal{width:100%;max-width:420px;background:var(--navy);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:18px}
-  .modal h2{font-size:18px;color:var(--gold);margin-bottom:4px}
-  .modal .q{font-size:13px;color:var(--sky);margin:14px 0 7px}
-  .modal input[type=text]{width:100%;font-family:var(--win);font-size:16px;padding:10px;border:3px solid var(--white);background:#0b1430;color:var(--white)}
-  .opts{display:flex;gap:8px;flex-wrap:wrap}
-  .opt{flex:1;min-width:96px;font-family:var(--win);font-size:14px;color:var(--white);background:#0b1430;border:3px solid #2b3a66;padding:10px 6px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
-  .opt.on{border-color:var(--gold);background:var(--navy2)}
-  .opt canvas{display:block}
-  .opt .h{border-color:var(--hot)}.opt.k-hot.on{border-color:var(--hot)}
-  .modal .go{width:100%;margin-top:16px;font-family:var(--win);font-size:17px;color:var(--navy);background:var(--gold);border:4px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:12px;cursor:pointer}
-  .modal .go:disabled{opacity:.5;cursor:not-allowed}
-  .modal .cancel{display:block;width:100%;text-align:center;margin-top:10px;font-size:13px;color:var(--sky);background:none;border:none;cursor:pointer;font-family:var(--win)}
-  .modal .note{font-size:11px;color:var(--sky);margin-top:8px;text-align:center}
+  /* char select */
+  #cs{position:fixed;inset:0;z-index:80;background:rgba(6,7,15,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:20px;text-align:center}
+  #cs.hide{display:none}
+  #cs .t{font-size:19px;text-shadow:3px 3px 0 var(--shadow)}#cs .t b{color:var(--gold);font-weight:400}
+  #cs .op{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  #cs .o{background:var(--navy);border:4px solid var(--white);box-shadow:0 0 0 4px var(--shadow);padding:14px 18px;cursor:pointer}
+  #cs .o:active{transform:translateY(2px)}#cs .o canvas{display:block;margin:0 auto 8px}
+  #cs .o .n{font-size:15px}#cs .o .n .s{display:block;font-size:11px;color:var(--sky)}
+  #cs .h{font-size:12px;color:var(--sky)}
+
+  /* footer */
+  footer{width:100%;max-width:620px;text-align:center;font-size:13px;color:var(--sky);line-height:1.9;margin-top:6px}
+  footer .info{background:var(--navy);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:10px 14px;font-size:12.5px;margin-bottom:12px}
+  footer .info b{color:var(--gold);font-weight:400}
+  footer .info .tag{font-size:11px;color:var(--navy);background:var(--gold);padding:0 6px;margin-left:3px}
+  footer .links{margin:8px 0}
+  footer .links a{margin:0 6px}
+  footer .disc{color:#5a6a9a;font-size:11px;margin-top:8px}
+
+  @media(max-width:560px){.dpad{grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px)}.feedbar .feed{flex-basis:100%}}
+  @media(prefers-reduced-motion:reduce){.msg .arw,.feedbar .feed.flash,.feedbar .count b.bump{animation:none}}
 </style>
 </head>
 <body>
 <div class="scan" aria-hidden="true"></div>
 <a href="./" class="toggle">✦ 通常版へ</a>
+<button id="rechar" class="rechar">キャラえらびなおす</button>
 
-<header>
-  <div class="wrap">
-    <span class="badge">HIROO 3RD ｜ SEATING BOARD</span>
-    <h1>出席ボード<span class="g">。</span></h1>
-    <div class="sub">＊ 参加をきめた なかまから せきに ついていきます</div>
+<div id="cs">
+  <div class="t">あなたは どちらで <b>さんか</b> しますか？</div>
+  <div class="op">
+    <div class="o" data-sex="m"><canvas id="csm" width="112" height="162"></canvas><div class="n">せいと（だんし）<span class="s">スーツ＋紺ネクタイ</span></div></div>
+    <div class="o" data-sex="f"><canvas id="csf" width="112" height="162"></canvas><div class="n">せいと（じょし）<span class="s">ブレザー＋紺リボン</span></div></div>
   </div>
-</header>
+  <div class="h">▶ えらぶと 会場を あるけます</div>
+</div>
 
-<div class="wrap">
-  <div class="count">
-    <div class="n" id="count">0</div>
-    <div class="lb">名が 参加予定</div>
-    <span class="demo">※ この画面はデモ表示です（本番は出欠フォームと連動して自動でうまります）</span>
+<div class="head">
+  <span class="badge">HIROO 3RD ｜ REUNION MAP</span>
+  <h1>あるける <span class="g">出席マップ</span></h1>
+</div>
+
+<div class="feedbar">
+  <span class="feed" id="feed">＊ ようこそ、広尾学園3期生 どうそうかい かいじょうへ！</span>
+  <span class="count"><b id="count">0</b> にん さんかよてい</span>
+</div>
+
+<div class="actions">
+  <button id="join" class="act">▶ わたしも さんかする</button>
+  <a href="#" class="act ghost" id="formlink">うけつけ（Googleフォーム）へ</a>
+</div>
+
+<div class="stage">
+  <canvas id="game" width="608" height="480" tabindex="0"></canvas>
+  <div class="msg" id="msg">
+    <div class="who" id="msgwho"></div>
+    <div class="tx" id="msgtx"></div>
+    <div id="msggo"></div>
+    <span class="arw" id="msgarw">▼</span>
   </div>
+</div>
 
-  <div class="bar">
-    <div class="legend">
-      <span>行きたい度：</span>
-      <span><i class="h"></i>ぜったい行く</span>
-      <span><i class="w"></i>たぶん行く</span>
-      <span><i class="c"></i>迷い中</span>
-    </div>
-    <button class="seatbtn" id="open">▶ 席につく<span class="bl">_</span></button>
+<div class="ctrl">
+  <div class="dpad">
+    <button class="u" data-dir="up" aria-label="うえ">▲</button>
+    <button class="l" data-dir="left" aria-label="ひだり">◀</button>
+    <button class="c" tabindex="-1"></button>
+    <button class="r" data-dir="right" aria-label="みぎ">▶</button>
+    <button class="d" data-dir="down" aria-label="した">▼</button>
   </div>
+  <button class="talk" id="talk">はなす / けってい</button>
+</div>
+<div class="hint">＊ 十字キーで あるいて、なかまに ちかづいて「はなす」と ひとこと よめるよ</div>
 
-  <div class="hall" id="hall"></div>
-
-  <div class="infoline">
-    📅 <b>2026年11月14日(土)</b><span class="tag">仮</span>　｜　📍 <b>聖心女子大学レストラン</b><span class="tag">仮</span>　｜　💰 <b>6,000円</b>（予定）　｜　🎓 広尾学園3期生（2015年卒）
-  </div>
-
+<footer>
+  <div class="info">📅 <b>2026年11月14日(土)</b><span class="tag">仮</span>　｜　📍 <b>聖心女子大学レストラン</b><span class="tag">仮</span>　｜　💰 <b>6,000円</b>（予定）　｜　🎓 広尾学園3期生（2015年卒）　｜　主催：同窓会本部</div>
   <div class="links">
     ほかのバージョン：
     <a href="./">通常版</a>／<a href="pixel.html">RPG版</a>／<a href="field.html">内庭をあるく</a>／<a href="mixi.html">あの頃SNS版</a>
   </div>
-</div>
-
-<footer>
   広尾学園3期生 同窓会本部　©2026 Hiroo 3rd Reunion
   <div class="disc">卒業生有志（実行委員会）が運営する同窓会の告知ページです。学校法人広尾学園の公式サイトではありません。表示中の氏名・人数はすべてデモ用のダミーです。</div>
 </footer>
 
-<!-- seat modal -->
-<div class="ov" id="ov">
-  <div class="modal">
-    <h2>席につく</h2>
-    <div style="font-size:13px;color:var(--white)">なまえ・キャラ・行きたい度を えらんでね</div>
-
-    <div class="q">なまえ（ニックネームでOK）</div>
-    <input type="text" id="mName" maxlength="10" placeholder="れい：ゆうき" aria-label="なまえ">
-
-    <div class="q">キャラ</div>
-    <div class="opts" id="mSex">
-      <div class="opt k-sex" data-sex="m"><canvas width="72" height="104" aria-label="男子"></canvas><span>せいと（だんし）</span></div>
-      <div class="opt k-sex" data-sex="f"><canvas width="72" height="104" aria-label="女子"></canvas><span>せいと（じょし）</span></div>
-    </div>
-
-    <div class="q">行きたい度</div>
-    <div class="opts" id="mHeat">
-      <div class="opt k-heat" data-heat="hot">🔥<br>ぜったい行く</div>
-      <div class="opt k-heat" data-heat="warm">😊<br>たぶん行く</div>
-      <div class="opt k-heat" data-heat="cool">🤔<br>迷い中</div>
-    </div>
-
-    <button class="go" id="mGo" disabled>この席につく！</button>
-    <button class="cancel" id="mCancel">やめる</button>
-    <div class="note">※ デモなので保存はされません</div>
-  </div>
-</div>
-
 <script>
 (function(){
-  // ---------- pixel sprite: Hiroo uniform (from RPG ver.) ----------
-  function drawChar(ctx,s,sex,f){
-    var W=ctx.canvas.width,H=ctx.canvas.height;ctx.clearRect(0,0,W,H);
-    function R(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x*s),Math.round(y*s),Math.ceil(w*s),Math.ceil(h*s));}
-    var skin='#f1c89b',hair='#241d16',blz='#2b3033',blzS='#1f2225',shirt='#f4f4ec',
-        navy='#2b4c8c',skirt='#565b61',skL='#3f4348',sock='#9aa0a7',shoe='#141414',silver='#c8ccd2';
+  var TILE=32, MW=19, MH=15;
+  var cv=document.getElementById('game'), ctx=cv.getContext('2d');
+
+  // ---- sprite: Hiroo uniform (m/f/t=teacher) ----  [engine reused from field.html]
+  function drawChar(c,s,sex,f,flip){
+    c.save();
+    if(flip){c.translate((18*s),0);c.scale(-1,1);}
+    function R(x,y,w,h,col){c.fillStyle=col;c.fillRect(Math.round(x*s),Math.round(y*s),Math.ceil(w*s),Math.ceil(h*s));}
+    var skin='#f1c89b',hair=sex=='t'?'#b8b6ad':'#241d16',blz='#2b3033',blzS='#1f2225',shirt='#f4f4ec',
+        navy=sex=='t'?'#22303f':'#2b4c8c',skirt='#565b61',skL='#3f4348',sock='#9aa0a7',shoe='#141414',silver='#c8ccd2';
     if(sex=='f'){R(4,4,1,9,hair);R(13,4,1,9,hair);}
     R(5,3,8,6,skin);
     R(5,2,8,2,hair);R(4,3,1,4,hair);R(13,3,1,4,hair);R(5,3,8,1,hair);
     R(7,6,1,1,'#20304a');R(10,6,1,1,'#20304a');
+    if(sex=='t'){R(6,6,3,1,'#20304a');R(10,6,3,1,'#20304a');}
     R(8,9,2,1,skin);
     R(6,10,6,2,shirt);
     R(4,11,10,8,blz);R(4,11,2,5,blzS);R(12,11,2,5,blzS);
     R(8,11,2,3,shirt);
-    if(sex=='m'){R(8,12,2,5,navy);} else {R(7,11,4,2,navy);R(8,13,2,1,navy);}
+    if(sex=='f'){R(7,11,4,2,navy);R(8,13,2,1,navy);} else {R(8,12,2,5,navy);}
     R(9,15,1,1,silver);R(9,17,1,1,silver);
     var la=f?11:12, ra=12-(f?1:0);
     R(3,la,1,7,blz);R(14,ra,1,7,blz);R(3,la+7,1,1,skin);R(14,ra+7,1,1,skin);
-    if(sex=='m'){var l1=f?5:4,l2=f?4:5;R(5,19,3,l1,blz);R(10,19,3,l2,blz);R(5,19+l1-1,3,1,shoe);R(10,19+l2-1,3,1,shoe);}
-    else{R(4,18,10,1,skirt);R(3,19,12,2,skirt);R(6,19,1,2,skL);R(9,19,1,2,skL);R(12,19,1,2,skL);var s1=f?3:2,s2=f?2:3;R(6,21,2,s1,sock);R(10,21,2,s2,sock);R(6,21+s1,2,1,shoe);R(10,21+s2,2,1,shoe);}
-  }
-  var sprAnims=[];
-  function animSprite(cv,s,sex){var o={c:cv.getContext('2d'),s:s,sex:sex};sprAnims.push(o);return o;}
-  (function loop(t){var f=Math.floor(t/240)%2;for(var i=0;i<sprAnims.length;i++)drawChar(sprAnims[i].c,sprAnims[i].s,sprAnims[i].sex,f);requestAnimationFrame(loop);})(0);
-
-  // ---------- config ----------
-  var TABLES=8, PER=6, CAP=TABLES*PER;
-  var TABLE_NM=['A','B','C','D','E','F','G','H'];
-  var HEATS=['hot','warm','cool'];
-  // dummy attendees (仮名・デモ)
-  var FIRST=['ゆうき','みさき','たける','あおい','しょうた','なな','けんと','ゆい','だいき','さくら','りく','あやか','はやと','みお','そうた','かな','ゆうと','ひなた','こうき','まい','しゅん','あかり','たくや','りお','かいと','ゆな','しんじ','えみ','りょう','ちひろ','こうへい','ほのか','だいすけ','あんな','ようすけ','みう','てつや','さやか','ひろき','なお'];
-  var seats=[]; // {name,sex,heat,me}
-  function seededHeat(i){return HEATS[[0,0,1,0,2,1,0,1,0,2][i%10]];}
-  var DUMMY=38;
-  for(var i=0;i<DUMMY;i++){seats.push({name:FIRST[i%FIRST.length],cl:(i%9+1)+'組',sex:(i*7%2==0?'m':'f'),heat:seededHeat(i),me:false});}
-
-  // ---------- render hall ----------
-  var hall=document.getElementById('hall');
-  function build(){
-    hall.innerHTML='';sprAnims=[];
-    for(var t=0;t<TABLES;t++){
-      var occ=seats.slice(t*PER,t*PER+PER);
-      var tbl=document.createElement('div');tbl.className='table';
-      tbl.innerHTML='<h3>テーブル '+TABLE_NM[t]+'<span>'+occ.length+'/'+PER+'</span></h3>';
-      var sc=document.createElement('div');sc.className='seats';
-      for(var j=0;j<PER;j++){
-        var idx=t*PER+j, p=seats[idx];
-        var seat=document.createElement('div');
-        seat.className='seat';
-        if(p){
-          seat.className+=' occ '+p.heat+(p.me?' me':'')+(p._new?' pop':'');
-          var cv=document.createElement('canvas');cv.width=44;cv.height=60;cv.className='cv';
-          seat.appendChild(el('div','heat'));
-          seat.appendChild(cv);
-          seat.appendChild(el('div','nm',p.name));
-          seat.appendChild(el('div','cl',p.cl));
-          animSprite(cv,3,p.sex);
-          p._new=false;
-        } else {
-          seat.appendChild(el('div','empty','空席'));
-        }
-        sc.appendChild(seat);
-      }
-      tbl.appendChild(sc);hall.appendChild(tbl);
+    if(sex=='f'){
+      R(4,18,10,1,skirt);R(3,19,12,2,skirt);R(6,19,1,2,skL);R(9,19,1,2,skL);R(12,19,1,2,skL);
+      var s1=f?3:2,s2=f?2:3;R(6,21,2,s1,sock);R(10,21,2,s2,sock);R(6,21+s1,2,1,shoe);R(10,21+s2,2,1,shoe);
+    } else {
+      var l1=f?5:4,l2=f?4:5;R(5,19,3,l1,blz);R(10,19,3,l2,blz);R(5,19+l1-1,3,1,shoe);R(10,19+l2-1,3,1,shoe);
     }
-    document.getElementById('count').textContent=seats.length;
+    c.restore();
   }
-  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
-  build();
-  // count-up flourish
-  (function(){var c=document.getElementById('count'),tgt=seats.length,t0=null;function st(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1100,1);c.textContent=Math.round((1-Math.pow(1-p,3))*tgt);if(p<1)requestAnimationFrame(st);}requestAnimationFrame(st);})();
 
-  // ---------- modal ----------
-  var ov=document.getElementById('ov'),go=document.getElementById('mGo');
-  var chosen={name:'',sex:null,heat:null};
-  try{var saved=localStorage.getItem('hiroo_char');if(saved=='m'||saved=='f')chosen.sex=saved;}catch(e){}
+  // ---- venue map ----  W wall, . floor, R reception, D drink, B round table, H plant, S banner, P player start
+  var MAP=[
+    "WWWWWWWWWWWWWWWWWWW",
+    "W.......S.........W",
+    "W.................W",
+    "W..R.......D......W",
+    "W.................W",
+    "W....B.......B....W",
+    "W.................W",
+    "W.................W",
+    "W....B.......B....W",
+    "W.................W",
+    "W..H...........H..W",
+    "W.................W",
+    "W........P........W",
+    "W.................W",
+    "WWWWWWWWWWWWWWWWWWW"];
+  function at(x,y){return (y<0||y>=MH||x<0||x>=MW)?'W':MAP[y].charAt(x);}
+  var solid={'W':1,'R':1,'D':1,'B':1,'H':1,'S':1};
 
-  // preview sprites in modal
-  Array.prototype.forEach.call(document.querySelectorAll('#mSex .opt canvas'),function(cv,i){animSprite(cv,4,i==0?'m':'f');});
-  function syncSel(){
-    Array.prototype.forEach.call(document.querySelectorAll('#mSex .opt'),function(o){o.classList.toggle('on',o.dataset.sex===chosen.sex);});
-    Array.prototype.forEach.call(document.querySelectorAll('#mHeat .opt'),function(o){o.classList.toggle('on',o.dataset.heat===chosen.heat);});
-    go.disabled=!(chosen.name.trim()&&chosen.sex&&chosen.heat);
+  // ---- static interactions (objects) ----
+  var INTER={
+    "3,3":{who:"うけつけ",tx:"Googleフォームで しゅっけつを うけつけています。 さんか よていの ひとは こちらから！",goal:true},
+    "11,3":{who:"ドリンクコーナー",tx:"＊ ソフトドリンクは のみほうだい（よてい）。 かんぱいの じゅんびは できてる？"},
+    "8,1":{who:"",tx:"＊【祝】広尾学園3期生 同窓会！ ようこそ、かいじょうへ。 すきな せきで だいじょうぶだよ。"},
+    "5,5":{who:"",tx:"＊ まるテーブルだ。 おかえりなさい。 なつかしい かおが ならんでいる。"},
+    "13,5":{who:"",tx:"＊ まるテーブルだ。 かいひは 6,000円（よてい）。 たいしょうは 2015年卒。"},
+    "5,8":{who:"",tx:"＊ まるテーブルだ。 きょうは 30さいの ふしめ。 おもいで ばなしが とまらない。"},
+    "13,8":{who:"",tx:"＊ まるテーブルだ。 かいさいは 2026.11.14(土)〈仮〉、 聖心女子大レストラン〈仮〉。"},
+    "3,10":{who:"",tx:"＊ かんようしょくぶつだ。 かいじょうを ゆったり いろどっている。"},
+    "15,10":{who:"",tx:"＊ かんようしょくぶつだ。 きょうは たくさん さんかしてくれて うれしいね。"}
+  };
+
+  // ---- attendees (dummy, deterministic placement) ----
+  var FIRST=['ゆうき','みさき','たける','あおい','しょうた','なな','けんと','ゆい','だいき','さくら','りく','あやか','はやと','みお','そうた','かな','ゆうと','ひなた','こうき','まい','しゅん','あかり','たくや','りお','かいと','ゆな','しんじ','えみ','りょう','ちひろ','こうへい','ほのか','だいすけ','あんな','ようすけ','みう','てつや','さやか','ひろき','なお'];
+  var CLASSES=['A組','B組','C組','D組','E組','F組'];
+  var LINES=['ひさしぶり！ 10ねんぶりだね〜','みんなに あいたくて きちゃった！','あのころの はなし しようよ','せんせい こないかな〜','かわってないね！ うれしい','ぶかつの メンバー あつまるかな','ずっと たのしみに してたんだ','なつかしすぎる…！','また あつまれて うれしいよ','みんな おとなに なったね','こんど ごはん いこうよ','あのころに もどった みたい','げんきだった？ きに してたよ','クラス ちがったけど おぼえてる','きょうは たくさん はなそうね','きて よかった〜！','あの きょうしつ また みたいな','しゃしん いっぱい とろう！','ひさびさで ちょっと ドキドキ','かわらず みんな すてきだね','このひを ずっと まってた','また わらいあえて うれしい'];
+
+  function rng(seed){return function(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;};}
+  var r=rng(20261114);
+
+  // reserve tiles so player & objects stay reachable
+  var reserved={};
+  function reserve(x,y){if(x>=0&&x<MW&&y>=0&&y<MH)reserved[x+','+y]=1;}
+  var PSX=9,PSY=12;
+  var ring=[[0,0],[0,-1],[0,1],[-1,0],[1,0]];
+  ring.forEach(function(d){reserve(PSX+d[0],PSY+d[1]);});
+  for(var yy=0;yy<MH;yy++)for(var xx=0;xx<MW;xx++){var tt=at(xx,yy);if(tt!=='.'&&tt!=='W'){ring.forEach(function(d){reserve(xx+d[0],yy+d[1]);});}}
+
+  var floors=[];
+  for(var y=0;y<MH;y++)for(var x=0;x<MW;x++){if(at(x,y)==='.'&&!reserved[x+','+y])floors.push([x,y]);}
+  // Fisher-Yates with seeded rng
+  for(var i=floors.length-1;i>0;i--){var j=Math.floor(r()*(i+1));var tmp=floors[i];floors[i]=floors[j];floors[j]=tmp;}
+
+  var attendees=[], occ={};
+  var N=Math.min(26,floors.length);
+  for(var k=0;k<N;k++){
+    var pos=floors[k];
+    var a={x:pos[0],y:pos[1],
+      name:FIRST[Math.floor(r()*FIRST.length)],
+      cl:CLASSES[Math.floor(r()*CLASSES.length)],
+      sex:(r()<0.5?'m':'f'),
+      line:LINES[Math.floor(r()*LINES.length)],
+      ph:k};
+    attendees.push(a);occ[pos[0]+','+pos[1]]=a;
   }
-  document.getElementById('mSex').addEventListener('click',function(e){var o=e.target.closest('.opt');if(!o)return;chosen.sex=o.dataset.sex;try{localStorage.setItem('hiroo_char',chosen.sex);}catch(_){}syncSel();});
-  document.getElementById('mHeat').addEventListener('click',function(e){var o=e.target.closest('.opt');if(!o)return;chosen.heat=o.dataset.heat;syncSel();});
-  document.getElementById('mName').addEventListener('input',function(e){chosen.name=e.target.value;syncSel();});
 
-  document.getElementById('open').addEventListener('click',function(){
-    if(seats.length>=CAP){alert('満席です！（デモ）テーブルを増やす想定です');return;}
-    ov.classList.add('show');syncSel();document.getElementById('mName').focus();
-  });
-  document.getElementById('mCancel').addEventListener('click',function(){ov.classList.remove('show');});
-  ov.addEventListener('click',function(e){if(e.target===ov)ov.classList.remove('show');});
+  // ---- player ----
+  var sex=null, px=PSX, py=PSY, dir='up', moving=false, mt=0, fx=PSX, fy=PSY, tx0=PSX, ty0=PSY;
+  var joined=false;
+  function blocked(x,y){var t=at(x,y);if(solid[t])return true;if(occ[x+','+y])return true;return false;}
+  function walkable(x,y){return !blocked(x,y);}
 
-  go.addEventListener('click',function(){
-    if(go.disabled)return;
-    // remove previous "me" so re-seating moves you
-    seats=seats.filter(function(s){return !s.me;});
-    seats.push({name:chosen.name.trim().slice(0,10),cl:'あなた',sex:chosen.sex,heat:chosen.heat,me:true,_new:true});
-    ov.classList.remove('show');
-    build();
-    // scroll to my seat
-    var me=document.querySelector('.seat.me');if(me)me.scrollIntoView({behavior:'smooth',block:'center'});
+  // ---- tile / object draw ----
+  function drawFloor(x,y){
+    ctx.fillStyle='#243a6e';ctx.fillRect(x*TILE,y*TILE,TILE,TILE);
+    ctx.fillStyle='#20345f';ctx.fillRect(x*TILE,y*TILE+TILE-3,TILE,3);
+    ctx.fillStyle='rgba(255,255,255,.04)';ctx.fillRect(x*TILE+2,y*TILE+2,TILE-4,2);
+  }
+  function drawWall(x,y){
+    ctx.fillStyle='#3f6187';ctx.fillRect(x*TILE,y*TILE,TILE,TILE);
+    ctx.fillStyle='#4f76a0';ctx.fillRect(x*TILE+3,y*TILE+3,TILE-6,TILE-8);
+    ctx.fillStyle='rgba(230,245,255,.35)';ctx.fillRect(x*TILE+6,y*TILE+4,3,TILE-10);
+    ctx.fillStyle='#26405c';ctx.fillRect(x*TILE,y*TILE+TILE-4,TILE,4);
+  }
+  function drawReception(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#caa15a';ctx.fillRect(bx+2,by+10,TILE-4,18);ctx.fillStyle='#a5813f';ctx.fillRect(bx+2,by+24,TILE-4,4);ctx.fillStyle='#f4f4ec';ctx.fillRect(bx+4,by+2,TILE-8,9);ctx.fillStyle='#101c44';ctx.font='9px "DotGothic16"';ctx.fillText('受付',bx+7,by+9);}
+  function drawPlant(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#5a3f24';ctx.fillRect(bx+8,by+18,TILE-16,10);ctx.fillStyle='#42301c';ctx.fillRect(bx+8,by+25,TILE-16,3);ctx.fillStyle='#2f6b2a';ctx.fillRect(bx+5,by+4,TILE-10,16);ctx.fillStyle='#3f8a38';ctx.fillRect(bx+8,by+2,TILE-16,10);ctx.fillStyle='#57993f';ctx.fillRect(bx+11,by+6,6,6);}
+  function drawTable(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='rgba(0,0,0,.25)';ctx.fillRect(bx+4,by+18,TILE-8,8);ctx.fillStyle='#f4f4ec';ctx.fillRect(bx+3,by+8,TILE-6,12);ctx.fillStyle='#d8d2c0';ctx.fillRect(bx+3,by+17,TILE-6,3);ctx.fillStyle='#c94f4f';ctx.fillRect(bx+13,by+10,6,4);ctx.fillStyle='#57993f';ctx.fillRect(bx+8,by+12,3,3);}
+  function drawDrink(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#5a6b8c';ctx.fillRect(bx+2,by+10,TILE-4,18);ctx.fillStyle='#3f4d6b';ctx.fillRect(bx+2,by+24,TILE-4,4);ctx.fillStyle='#ffd447';ctx.fillRect(bx+6,by+5,4,6);ctx.fillStyle='#ff6f8a';ctx.fillRect(bx+13,by+4,4,7);ctx.fillStyle='#7ab8ff';ctx.fillRect(bx+20,by+5,4,6);ctx.fillStyle='#f4f4ec';ctx.font='8px "DotGothic16"';ctx.fillText('BAR',bx+9,by+23);}
+  function drawBanner(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#8a1f2a';ctx.fillRect(bx+2,by+2,TILE-4,18);ctx.fillStyle='#ffd447';ctx.fillRect(bx+2,by+2,TILE-4,2);ctx.fillRect(bx+2,by+18,TILE-4,2);ctx.font='12px "DotGothic16"';ctx.fillStyle='#ffd447';ctx.fillText('祝',bx+10,by+15);}
+
+  function render(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    for(var y=0;y<MH;y++)for(var x=0;x<MW;x++){var t=at(x,y);if(t=='W')drawWall(x,y);else drawFloor(x,y);}
+    var ents=[];
+    for(var y=0;y<MH;y++)for(var x=0;x<MW;x++){var t=at(x,y);
+      if(t=='R')ents.push({y:y,x:x,yy:y,f:drawReception});
+      else if(t=='D')ents.push({y:y,x:x,yy:y,f:drawDrink});
+      else if(t=='B')ents.push({y:y,x:x,yy:y,f:drawTable});
+      else if(t=='H')ents.push({y:y,x:x,yy:y,f:drawPlant});
+      else if(t=='S')ents.push({y:y,x:x,yy:y,f:drawBanner});
+    }
+    // attendees
+    for(var m=0;m<attendees.length;m++){var a=attendees[m];ents.push({y:a.y,x:a.x,yy:a.y,att:a});}
+    // player pixel pos
+    var ppx,ppy;
+    if(moving){var kk=Math.min((performance.now()-mt)/150,1);ppx=(tx0+(fx-tx0)*kk);ppy=(ty0+(fy-ty0)*kk);if(kk>=1){moving=false;px=fx;py=fy;}}
+    else {ppx=px;ppy=py;}
+    ents.push({y:ppy,player:true,px:ppx,py:ppy});
+    ents.sort(function(a,b){return a.y-b.y;});
+    var wf=(moving?(Math.floor(performance.now()/140)%2):0);
+    ents.forEach(function(e){
+      if(e.player){ var sc=2.0; var ox=e.px*TILE+(TILE-18*sc)/2; var oy=e.py*TILE+TILE-26*sc+4;
+        ctx.save();ctx.translate(ox,oy);drawChar(ctx,sc,sex,wf,dir=='left');ctx.restore();
+        if(joined){ctx.fillStyle='#ffd447';ctx.font='12px "DotGothic16"';ctx.fillText('★',e.px*TILE+TILE/2-6,e.py*TILE+2);}
+      }
+      else if(e.att){ var sc=2.0; var ox=e.x*TILE+(TILE-18*sc)/2; var oy=e.yy*TILE+TILE-26*sc+4;
+        ctx.save();ctx.translate(ox,oy);drawChar(ctx,sc,e.att.sex,Math.floor(performance.now()/520+e.att.ph)%2,false);ctx.restore(); }
+      else e.f(e.x,e.yy);
+    });
+  }
+
+  // ---- interaction / message window ----
+  var msg=document.getElementById('msg'),msgtx=document.getElementById('msgtx'),msgwho=document.getElementById('msgwho'),msggo=document.getElementById('msggo'),msgarw=document.getElementById('msgarw');
+  var typing=false,fullText='',typeI=0,typeTimer=null,curInter=null;
+  function frontTile(){var d={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];return [px+d[0],py+d[1]];}
+  function openMsg(info){
+    curInter=info;msg.classList.add('show');msgwho.textContent=info.who||'';msggo.innerHTML='';msgarw.style.display='none';
+    fullText=info.tx;typeI=0;msgtx.textContent='';typing=true;
+    clearInterval(typeTimer);
+    typeTimer=setInterval(function(){
+      typeI++;msgtx.textContent=fullText.slice(0,typeI);
+      if(typeI>=fullText.length){clearInterval(typeTimer);typing=false;finishMsg(info);}
+    },28);
+  }
+  function finishMsg(info){
+    msgarw.style.display='block';
+    if(info.goal){msggo.innerHTML='<a class="go" href="#">▶ Googleフォームへ すすむ</a>';}
+  }
+  function talk(){
+    if(msg.classList.contains('show')){
+      if(typing){clearInterval(typeTimer);msgtx.textContent=fullText;typing=false;finishMsg(curInter);return;}
+      msg.classList.remove('show');curInter=null;return;
+    }
+    var ft=frontTile(),key=ft[0]+','+ft[1];
+    var a=occ[key];
+    if(a){openMsg({who:a.name+'（'+a.cl+'）',tx:'「'+a.line+'」'});return;}
+    var info=INTER[key];
+    if(info)openMsg(info);
+  }
+
+  // ---- input ----
+  var held=null;
+  function tryMove(d){ if(moving||msg.classList.contains('show'))return; dir=d;
+    var dd={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[d];var nx=px+dd[0],ny=py+dd[1];
+    if(walkable(nx,ny)){tx0=px;ty0=py;fx=nx;fy=ny;moving=true;mt=performance.now();}
+  }
+  addEventListener('keydown',function(e){
+    if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
+    var m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};
+    if(m[e.key]){e.preventDefault();held=m[e.key];tryMove(m[e.key]);}
+    if(e.key===' '||e.key==='Enter'||e.key==='z'||e.key==='Z'){e.preventDefault();talk();}
   });
+  addEventListener('keyup',function(e){var m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(m[e.key]&&held===m[e.key])held=null;});
+  Array.prototype.forEach.call(document.querySelectorAll('.dpad button[data-dir]'),function(b){
+    var d=b.dataset.dir;
+    function on(e){e.preventDefault();held=d;tryMove(d);}
+    function off(e){e.preventDefault();if(held===d)held=null;}
+    b.addEventListener('touchstart',on,{passive:false});b.addEventListener('touchend',off,{passive:false});
+    b.addEventListener('mousedown',on);b.addEventListener('mouseup',off);b.addEventListener('mouseleave',off);
+  });
+  document.getElementById('talk').addEventListener('click',function(e){e.preventDefault();talk();});
+
+  var started=false;
+  function step(){ if(held&&!moving&&!msg.classList.contains('show'))tryMove(held); render(); requestAnimationFrame(step); }
+
+  // ---- live feed + counter ----
+  var feedEl=document.getElementById('feed'),countEl=document.getElementById('count');
+  var count=attendees.length;
+  // count-up flourish, then reveal feed
+  (function(){var t0=null,tgt=count;function st(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1100,1);countEl.textContent=Math.round((1-Math.pow(1-p,3))*tgt);if(p<1)requestAnimationFrame(st);else countEl.textContent=count;}requestAnimationFrame(st);})();
+  function bumpCount(){countEl.textContent=count;countEl.classList.remove('bump');void countEl.offsetWidth;countEl.classList.add('bump');}
+  function flashFeed(html){feedEl.innerHTML=html;feedEl.classList.remove('flash');void feedEl.offsetWidth;feedEl.classList.add('flash');}
+
+  var FEED=[];
+  var fr=rng(31415926);
+  for(var q=0;q<14;q++){FEED.push({name:FIRST[Math.floor(fr()*FIRST.length)],cl:CLASSES[Math.floor(fr()*CLASSES.length)]});}
+  var fi=0,feedTimer=null;
+  function feedTick(){
+    if(fi>=FEED.length){flashFeed('＊ みんな あつまってきています！ あなたも <b>さんか</b> しよう');clearInterval(feedTimer);feedTimer=null;return;}
+    var e=FEED[fi++];
+    flashFeed('🎉 <b>'+e.name+'</b>（'+e.cl+'）が さんか しました！');
+    count++;bumpCount();
+  }
+  function startFeed(){if(feedTimer)return;setTimeout(function(){feedTimer=setInterval(feedTick,3200);},1600);}
+
+  // ---- self join ----
+  var joinBtn=document.getElementById('join');
+  joinBtn.addEventListener('click',function(){
+    if(joined)return;
+    joined=true;count++;bumpCount();
+    flashFeed('🎉 <b>あなた</b>が さんか しました！ ようこそ！');
+    joinBtn.textContent='さんかずみ ✓';joinBtn.classList.add('done');joinBtn.disabled=true;
+  });
+  document.getElementById('formlink').addEventListener('click',function(e){e.preventDefault();/* href="#" のまま：本番でGoogleフォームに差し替え */});
+
+  // ---- char select ----  [shared key with pixel.html / field.html]
+  var CHAR_KEY='hiroo_char';
+  function saveChar(s){try{localStorage.setItem(CHAR_KEY,s);}catch(e){}}
+  function loadChar(){try{var v=localStorage.getItem(CHAR_KEY);return v==='m'||v==='f'?v:null;}catch(e){return null;}}
+  function clearChar(){try{localStorage.removeItem(CHAR_KEY);}catch(e){}}
+
+  var csEl=document.getElementById('cs');
+  var csm=document.getElementById('csm').getContext('2d'),csf=document.getElementById('csf').getContext('2d');
+  function selLoop(t){var f=Math.floor(t/180)%2;csm.clearRect(0,0,112,162);csf.clearRect(0,0,112,162);drawChar(csm,6,'m',f,false);drawChar(csf,6,'f',f,false);if(!sex)requestAnimationFrame(selLoop);}
+  function begin(s){sex=s;saveChar(s);csEl.classList.add('hide');cv.focus();if(!started){started=true;requestAnimationFrame(step);startFeed();}}
+  Array.prototype.forEach.call(document.querySelectorAll('#cs .o'),function(o){o.addEventListener('click',function(){begin(o.dataset.sex);});});
+  document.getElementById('rechar').addEventListener('click',function(){clearChar();sex=null;csEl.classList.remove('hide');requestAnimationFrame(selLoop);});
+
+  // boot: reuse saved character, otherwise show selector
+  var saved=loadChar();
+  if(saved){begin(saved);} else {requestAnimationFrame(selLoop);}
 })();
 </script>
 </body>
