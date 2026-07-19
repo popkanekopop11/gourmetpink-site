@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>広尾学園3期生 同窓会 ｜ あの頃SNS ver.</title>
+<style>
+  :root{
+    --orange:#ff7e00;
+    --orange-d:#e96b00;
+    --orange-l:#ffb15e;
+    --cream:#fff6e9;
+    --panel:#ffffff;
+    --line:#ffd8a8;
+    --line2:#f0e2c8;
+    --ink:#4a3b28;
+    --ink2:#7a6a52;
+    --link:#1155cc;
+    --green:#7bb32e;
+    --pink:#ff6fae;
+    --sys:"Hiragino Kaku Gothic ProN","メイリオ",Meiryo,"MS PGothic",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23ffe6c2'/%3E%3C/svg%3E");color:var(--ink);font-family:var(--sys);font-size:14px;line-height:1.7;-webkit-text-size-adjust:100%}
+  a{color:var(--link)}
+  img{max-width:100%}
+
+  /* toggle */
+  .toggle{position:fixed;bottom:14px;right:14px;z-index:50;font-family:var(--sys);font-size:12px;font-weight:bold;color:#fff;background:var(--orange);border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.3);padding:9px 13px;border-radius:20px;text-decoration:none}
+  .toggle:hover{background:var(--orange-d)}
+
+  /* top bar */
+  .top{background:linear-gradient(#ff9a33,var(--orange));border-bottom:3px solid var(--orange-d);color:#fff}
+  .top .in{max-width:900px;margin:0 auto;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:bold;font-size:19px;letter-spacing:.02em;text-shadow:1px 1px 0 var(--orange-d)}
+  .brand .ic{width:26px;height:26px;background:#fff;color:var(--orange);border-radius:6px;display:grid;place-items:center;font-size:17px;font-weight:900;box-shadow:inset 0 -2px 0 #ffe6c2}
+  .brand small{display:block;font-size:10px;font-weight:normal;letter-spacing:.14em;opacity:.9;text-shadow:none}
+  .top .nav{display:flex;gap:2px;font-size:12px;flex-wrap:wrap}
+  .top .nav a{color:#fff;text-decoration:none;background:rgba(255,255,255,.16);padding:5px 10px;border-radius:4px}
+  .top .nav a:hover{background:rgba(255,255,255,.3)}
+
+  /* ticker */
+  .ticker{background:#fffbe6;border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;font-size:12px;color:var(--orange-d);padding:5px 0}
+  .ticker span{display:inline-block;padding-left:100%;animation:mar 18s linear infinite}
+  @keyframes mar{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+  .layout{max-width:900px;margin:14px auto 40px;padding:0 12px;display:grid;grid-template-columns:224px 1fr;gap:14px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 0 #fff inset,0 2px 6px rgba(160,120,60,.08);overflow:hidden;margin-bottom:14px}
+  .card>h3{background:linear-gradient(#fff4e0,#ffe7c4);border-bottom:1px solid var(--line);color:var(--orange-d);font-size:13px;padding:7px 11px;display:flex;align-items:center;gap:6px}
+  .card .bd{padding:11px}
+
+  /* profile */
+  .prof{text-align:center}
+  .prof .ava{width:96px;height:96px;margin:2px auto 8px;border:3px solid var(--orange-l);border-radius:10px;background:linear-gradient(#eafts,#dff0c8);display:grid;place-items:center;overflow:hidden;background:linear-gradient(#dff0c8,#eef7dc)}
+  .prof .ava svg{width:78px;height:78px}
+  .prof .nm{font-weight:bold;font-size:15px;color:var(--ink)}
+  .prof .st{display:inline-block;margin-top:6px;background:#eafbe0;color:#4f8a1f;border:1px solid #bfe39a;border-radius:20px;font-size:11px;padding:2px 10px}
+  .prof .meta{margin-top:9px;font-size:11.5px;color:var(--ink2);text-align:left;line-height:1.9;border-top:1px dashed var(--line2);padding-top:8px}
+  .prof .meta b{color:var(--ink)}
+
+  /* counter */
+  .counter{text-align:center;font-size:12px;color:var(--ink2)}
+  .odo{display:inline-flex;gap:3px;margin:6px 0}
+  .odo i{background:#222;color:#7fff9a;font-family:"Courier New",monospace;font-weight:bold;font-size:20px;width:20px;height:28px;display:grid;place-items:center;border-radius:3px;box-shadow:inset 0 0 4px #000}
+  .kiri{margin-top:6px;font-size:11px;color:var(--pink);font-weight:bold}
+
+  /* mymixi list */
+  .mm{display:flex;flex-wrap:wrap;gap:8px 6px}
+  .mm .p{width:46px;text-align:center;font-size:10px;color:var(--ink2)}
+  .mm .p .f{width:42px;height:42px;border:2px solid var(--line);border-radius:8px;overflow:hidden;background:linear-gradient(#eef7dc,#dff0c8);display:grid;place-items:center;margin:0 auto 2px}
+  .mm .p .f svg{width:34px;height:34px}
+  .foot-note{font-size:11px;color:var(--ink2);margin-top:9px;text-align:center}
+
+  /* ashiato */
+  .ashi li{list-style:none;font-size:11.5px;padding:6px 2px;border-bottom:1px dashed var(--line2);display:flex;justify-content:space-between;gap:8px;color:var(--ink2)}
+  .ashi li b{color:var(--link);font-weight:normal}
+  .ashi li:last-child{border:none}
+
+  /* main diary */
+  .welcome{background:linear-gradient(#fff,#fff8ec);text-align:center;padding:16px 12px}
+  .welcome .hi{font-size:13px;color:var(--orange-d);font-weight:bold}
+  .welcome h1{font-size:clamp(20px,4.6vw,30px);color:var(--ink);letter-spacing:.03em;margin:6px 0 4px;line-height:1.35}
+  .welcome h1 .o{color:var(--orange)}
+  .welcome .em{font-size:20px;letter-spacing:2px;margin-top:2px}
+
+  .diary .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--orange-l);padding-bottom:6px;margin-bottom:10px}
+  .diary .head .ttl{font-size:16px;font-weight:bold;color:var(--orange-d)}
+  .diary .head .dt{font-size:11px;color:var(--ink2)}
+  .diary p{margin:0 0 11px}
+  .diary .mood{font-size:12px;color:var(--ink2);background:#fff8ec;border:1px dashed var(--line);border-radius:6px;padding:6px 10px;display:inline-block;margin-bottom:12px}
+
+  table.info{width:100%;border-collapse:collapse;margin:4px 0 14px;font-size:13px}
+  table.info th,table.info td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  table.info th{background:#fff4e0;color:var(--orange-d);width:92px;white-space:nowrap;font-weight:bold}
+  table.info .tag{display:inline-block;background:#ffe7c4;color:var(--orange-d);border-radius:20px;font-size:10.5px;padding:1px 8px;margin-left:5px}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(#8fd23e,var(--green));color:#fff;font-weight:bold;font-size:16px;text-decoration:none;padding:14px 30px;border-radius:26px;border:2px solid #fff;box-shadow:0 4px 0 #5d9021,0 6px 12px rgba(0,0,0,.15)}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #5d9021}
+  .cta-wrap{text-align:center;margin:4px 0 8px}
+  .cta-note{font-size:11px;color:var(--ink2);margin-top:8px}
+
+  .demo{display:inline-block;font-size:11px;color:#a07a3c;background:#fff8ec;border:1px dashed var(--line);border-radius:5px;padding:3px 9px;margin-top:6px}
+
+  /* comments */
+  .cmt li{list-style:none;border-bottom:1px dashed var(--line2);padding:9px 2px}
+  .cmt li:last-child{border:none}
+  .cmt .nm{font-weight:bold;color:var(--link);font-size:12.5px}
+  .cmt .nm .em{color:var(--pink)}
+  .cmt .tm{font-size:10.5px;color:var(--ink2);margin-left:6px}
+  .cmt .tx{font-size:12.5px;margin-top:3px}
+  .cmt-input{display:flex;gap:6px;margin-top:10px}
+  .cmt-input input{flex:1;border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-family:var(--sys);font-size:12px;background:#fffdf8}
+  .cmt-input button{background:var(--orange);color:#fff;border:1px solid var(--orange-d);border-radius:6px;font-weight:bold;padding:0 14px;cursor:pointer;font-family:var(--sys)}
+
+  footer{text-align:center;font-size:11px;color:var(--ink2);padding:18px 12px 40px}
+  footer .disc{font-size:10px;color:#a99a80;max-width:560px;margin:8px auto 0;line-height:1.7}
+
+  .blink{animation:bl 1.1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+
+  @media(max-width:720px){
+    .layout{grid-template-columns:1fr}
+    .side{order:2}
+    .main{order:1}
+    .top .nav{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){.ticker span{animation:none;padding-left:0}.blink{animation:none}}
+</style>
+</head>
+<body>
+
+<a href="./" class="toggle">✦ 通常版へ</a>
+
+<div class="top">
+  <div class="in">
+    <div class="brand"><span class="ic">3</span><span>広尾学園3期生SNS<small>HIROO 3RD REUNION</small></span></div>
+    <div class="nav">
+      <a href="#diary">日記</a>
+      <a href="#join">参加する</a>
+      <a href="pixel.html">RPG版</a>
+      <a href="./">通常版</a>
+    </div>
+  </div>
+</div>
+
+<div class="ticker"><span>☆祝☆ 3期生 同窓会ページ 開設しました！ ／ 幹事：同窓会本部 が更新中… ／ ひさびさに会おうよ〜(´▽｀) ／ 詳細は日記をチェック♪ ／ みんなの参加まってます！！</span></div>
+
+<div class="layout">
+
+  <!-- ============ SIDE ============ -->
+  <div class="side">
+    <div class="card prof">
+      <h3>🌱 プロフィール</h3>
+      <div class="bd">
+        <div class="ava">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4v33M20 15c-4-3-8-3-11-6M20 15c4-3 8-3 11-6M20 24c-5-3-9-4-13-8M20 24c5-3 9-4 13-8M20 33c-6-3-10-6-15-11M20 33c6-3 10-6 15-11" stroke="#7bb32e" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="nm">同窓会本部</div>
+        <div class="st">● ログイン中</div>
+        <div class="meta">
+          <div><b>ニックネーム：</b>3期生 幹事一同</div>
+          <div><b>所属：</b>広尾学園 3期生（2015年卒）</div>
+          <div><b>ひとこと：</b>30歳、集まろう！</div>
+          <div><b>更新：</b>たった今</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔢 アクセスカウンター</h3>
+      <div class="bd counter">
+        あなたは
+        <div class="odo" id="odo"><i>0</i><i>0</i><i>0</i><i>3</i><i>8</i></div>
+        人目の訪問者です
+        <div class="kiri">◆祝◆ もうすぐキリ番！ 踏んだら幹事に自慢してね<span class="blink">✨</span></div>
+        <div class="demo">※ 数字はデモ表示です</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>👥 マイミク（参加予定）</h3>
+      <div class="bd">
+        <div class="mm" id="mm"></div>
+        <div class="foot-note">ほか <b id="more">33</b> 人が参加予定！</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>👣 足あと</h3>
+      <div class="bd">
+        <ul class="ashi">
+          <li><b>1組の○○</b><span>3分前</span></li>
+          <li><b>5組の△△</b><span>21分前</span></li>
+          <li><b>7組の□□</b><span>1時間前</span></li>
+          <li><b>8組の◇◇</b><span>今日 09:14</span></li>
+          <li><b>2組の☆☆</b><span>昨日</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="card">
+      <div class="welcome">
+        <div class="hi">＼ ひさしぶり！みんな元気してた？ ／</div>
+        <h1>広尾学園3期生<br><span class="o">同窓会</span> やります</h1>
+        <div class="em">🌸🍺🎉📸🌱</div>
+      </div>
+    </div>
+
+    <div class="card" id="diary">
+      <h3>📖 最新の日記</h3>
+      <div class="bd diary">
+        <div class="head">
+          <span class="ttl">30歳、そろそろ集まらない？</span>
+          <span class="dt">2026年07月19日 11:44</span>
+        </div>
+        <div class="mood">🎧 気分：わくわく　｜　🌦 天気：はれ</div>
+        <p>おひさしぶりです、3期生のみんな！ 幹事一同です(´▽｀)ﾉ<br>卒業してもう12年…気づいたらみんな30歳。ということで、ひさびさに集まろうよ〜！ってことで同窓会を企画しました。</p>
+        <p>会場はまさかの母校のすぐ裏。あの頃の話、今の話、いろいろしよ〜！ 下に詳細まとめたので見てね↓↓</p>
+
+        <table class="info">
+          <tr><th>開催日</th><td>2027年3月13日(土)<span class="tag">仮</span></td></tr>
+          <tr><th>会場</th><td>聖心女子大学レストラン（母校の真裏）<span class="tag">仮</span></td></tr>
+          <tr><th>会費</th><td>6,000円<span class="tag">予定</span></td></tr>
+          <tr><th>対象</th><td>広尾学園3期生（2015年卒）</td></tr>
+          <tr><th>主催</th><td>広尾学園3期生 同窓会本部</td></tr>
+        </table>
+
+        <div class="cta-wrap" id="join">
+          <a href="#" class="btn">🖊 参加する（Googleフォームへ）</a>
+          <div class="cta-note">所要1分ほど。「ちょっと迷ってる」もフォームで教えてね！</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💬 コメント（<span id="cc">6</span>）</h3>
+      <div class="bd">
+        <ul class="cmt" id="cmt">
+          <li><span class="nm">1組の○○</span><span class="tm">11:52</span><div class="tx">なつかしすぎて泣いた🥹 ぜったい行く！</div></li>
+          <li><span class="nm">5組の△△</span><span class="tm">12:03</span><div class="tx">まじか！！幹事ありがとう〜！仕事調整する💪</div></li>
+          <li><span class="nm">7組の□□</span><span class="tm">12:15</span><div class="tx">母校の裏てw エモいんだけどw</div></li>
+          <li><span class="nm">8組の◇◇</span><span class="tm">12:31</span><div class="tx">あの頃のメンツにまた会えるの嬉しすぎる<span class="em">♡</span></div></li>
+          <li><span class="nm">2組の☆☆</span><span class="tm">12:48</span><div class="tx">3月あけとく〜！！だれ来るのか楽しみ😆</div></li>
+          <li><span class="nm">4組の◎◎</span><span class="tm">13:02</span><div class="tx">とりあえずフォーム出した！みんなも早く〜</div></li>
+        </ul>
+        <div class="cmt-input">
+          <input id="ci" type="text" placeholder="コメントをかく…（デモ）" aria-label="コメント入力">
+          <button id="cb">送信</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  広尾学園3期生 同窓会本部　©2026 Hiroo 3rd Reunion
+  <div class="disc">卒業生有志（実行委員会）が運営する同窓会の告知ページです。学校法人広尾学園の公式サイトではありません。「あの頃のSNS」を模したデモデザインです。</div>
+</footer>
+
+<script>
+(function(){
+  // avatar generator for mymixi
+  function av(hue){
+    var d=document.createElement('div');d.className='p';
+    d.innerHTML='<div class="f"><svg viewBox="0 0 40 40"><circle cx="20" cy="15" r="7" fill="hsl('+hue+',45%,62%)"/><path d="M6 36c0-8 6-13 14-13s14 5 14 13" fill="hsl('+hue+',45%,55%)"/></svg></div><span>'+(Math.random()<.5?'○組':'△組')+'</span>';
+    return d;
+  }
+  var mm=document.getElementById('mm');
+  for(var i=0;i<5;i++){mm.appendChild(av((i*67)%360));}
+
+  // odometer count up
+  var target=38;
+  var odo=document.getElementById('odo').querySelectorAll('i');
+  var t0=null;
+  function pad(n){n=String(n);while(n.length<odo.length)n='0'+n;return n;}
+  function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1400,1);var e=1-Math.pow(1-p,3);var v=Math.round(e*target);var s=pad(v);for(var i=0;i<odo.length;i++)odo[i].textContent=s.charAt(i);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+
+  // demo comment add
+  var ci=document.getElementById('ci'),cb=document.getElementById('cb'),cmt=document.getElementById('cmt'),cc=document.getElementById('cc');
+  function addC(){
+    var v=ci.value.trim();if(!v)return;
+    var li=document.createElement('li');
+    li.innerHTML='<span class="nm">あなた</span><span class="tm">たった今</span><div class="tx"></div>';
+    li.querySelector('.tx').textContent=v;
+    cmt.appendChild(li);cc.textContent=cmt.children.length;ci.value='';
+    li.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  cb.addEventListener('click',addC);
+  ci.addEventListener('keydown',function(e){if(e.key==='Enter')addC();});
+})();
+</script>
+</body>
+</html>
