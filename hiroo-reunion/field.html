@@ -14,6 +14,8 @@
   .scan{position:fixed;inset:0;z-index:60;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);mix-blend-mode:multiply;opacity:.45}
   ::selection{background:var(--gold);color:var(--navy)}
   .toggle{position:fixed;top:12px;right:12px;z-index:70;font-family:var(--win);font-size:13px;color:var(--navy);background:var(--gold);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:8px 12px;text-decoration:none}
+  .rechar{position:fixed;top:12px;left:12px;z-index:70;font-family:var(--win);font-size:12px;color:var(--white);background:var(--navy);border:3px solid var(--white);box-shadow:0 0 0 3px var(--shadow);padding:8px 12px;cursor:pointer}
+  .rechar:active{transform:translateY(2px)}
   .hud{width:100%;max-width:520px;font-size:13px;color:var(--sky);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 4px}
   .hud b{color:var(--gold);font-weight:400}
   .stage{position:relative;width:100%;max-width:520px}
@@ -52,6 +54,7 @@
 <body>
 <div class="scan" aria-hidden="true"></div>
 <a href="pixel.html" class="toggle">✦ メニューへ</a>
+<button id="rechar" class="rechar">キャラえらびなおす</button>
 
 <div id="cs">
   <div class="t">あなたは どちらで <b>さんか</b> しますか？</div>
@@ -62,7 +65,7 @@
   <div class="h">▶ えらぶと 内庭を あるけます</div>
 </div>
 
-<div class="hud"><span>広尾学園3期生 同窓会 <b>～内庭を あるく～</b></span><span id="found">はなした: 0/5</span></div>
+<div class="hud"><span>広尾学園3期生 同窓会 <b>～内庭を あるく～</b></span><span id="found">はなした: 0/8</span></div>
 
 <div class="stage">
   <canvas id="game" width="480" height="352" tabindex="0"></canvas>
@@ -122,18 +125,18 @@
   // ---- map ----  W wall, . floor, T tree, B bench, S sign, N npc, R reception
   var MAP=[
     "WWWWWWWWWWWWWWW",
-    "W..........R..W",
+    "W..C.......R..W",
     "W.............W",
     "W......T......W",
     "W....B.T.B....W",
-    "W.............W",
+    "W.........H...W",
     "W.............W",
     "W...S.....N...W",
-    "W.............W",
+    "W..K..........W",
     "W......P......W",
     "WWWWWWWWWWWWWWW"];
   function at(x,y){return (y<0||y>=MH||x<0||x>=MW)?'W':MAP[y].charAt(x);}
-  var solid={'W':1,'T':1,'B':1,'S':1,'N':1,'R':1,'F':1};
+  var solid={'W':1,'T':1,'B':1,'S':1,'N':1,'R':1,'F':1,'C':1,'H':1,'K':1};
 
   var INTER={
     "11,1":{who:"うけつけ",tx:"Googleフォームで しゅっけつを うけつけています。 さんか よていの ひとは こちらから！",goal:true},
@@ -141,9 +144,12 @@
     "5,4":{who:"",tx:"＊ ベンチだ。 かいひは 6,000円。 たいしょうは 広尾学園3期生（2015年卒）。"},
     "9,4":{who:"",tx:"＊ ベンチだ。 かいひは 6,000円。 たいしょうは 広尾学園3期生（2015年卒）。"},
     "4,7":{who:"たてかん",tx:"【おしらせ】30さいの ふしめに、広尾学園3期生の 同窓会を ひらきます！ しゅさい：同窓会本部"},
-    "10,7":{who:"せんせい",tx:"「おお、久しぶりだな！ かいさいは 2026.11.14(土)〈仮〉、 ばしょは 聖心女子大レストラン〈仮〉だ。」"}
+    "10,7":{who:"せんせい",tx:"「おお、久しぶりだな！ かいさいは 2026.11.14(土)〈仮〉、 ばしょは 聖心女子大レストラン〈仮〉だ。」"},
+    "3,1":{who:"どうきゅうせい",tx:"「わ、ひさしぶり！ みんな あつまってきてるよ。 きみも さんか するよね？」"},
+    "10,5":{who:"",tx:"＊ はなだんだ。 きせつの はなが きれいに さいている。 だれかが て入れ してるみたい。"},
+    "3,8":{who:"こうばい",tx:"＊ こうばいの あとだ。 やきそばパンの かおりが した きがする……。"}
   };
-  var talkedKeys={}, totalTalk=5;  // 5 unique info spots (2 benches count once)
+  var talkedKeys={}, totalTalk=8;  // 8 unique info spots (2 benches count once)
 
   // ---- player ----
   var sex=null, px=7, py=9, dir='up', moving=false, mt=0, fx=7, fy=9, tx0=7, ty0=9, frame=0, walkT=0, flip=false;
@@ -172,6 +178,8 @@
   function drawBench(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#7a5a34';ctx.fillRect(bx+3,by+12,TILE-6,8);ctx.fillStyle='#5f4526';ctx.fillRect(bx+3,by+18,TILE-6,3);ctx.fillStyle='#4a3a24';ctx.fillRect(bx+5,by+20,3,8);ctx.fillRect(bx+TILE-8,by+20,3,8);ctx.fillStyle='#2f6b2a';ctx.fillRect(bx+2,by+28,TILE-4,3);}
   function drawSign(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#6a4a2a';ctx.fillRect(bx+14,by+14,4,16);ctx.fillStyle='#caa15a';ctx.fillRect(bx+4,by+4,TILE-8,16);ctx.fillStyle='#3a2a16';ctx.fillRect(bx+4,by+4,TILE-8,2);ctx.fillStyle='#3a2a16';ctx.font='12px "DotGothic16"';ctx.fillText('!',bx+13,by+16);}
   function drawReception(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#caa15a';ctx.fillRect(bx+2,by+10,TILE-4,18);ctx.fillStyle='#a5813f';ctx.fillRect(bx+2,by+24,TILE-4,4);ctx.fillStyle='#f4f4ec';ctx.fillRect(bx+4,by+2,TILE-8,9);ctx.fillStyle='#101c44';ctx.font='9px "DotGothic16"';ctx.fillText('受付',bx+7,by+9);}
+  function drawFlower(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#5a3f24';ctx.fillRect(bx+3,by+18,TILE-6,10);ctx.fillStyle='#42301c';ctx.fillRect(bx+3,by+25,TILE-6,3);ctx.fillStyle='#2f6b2a';ctx.fillRect(bx+4,by+14,TILE-8,6);var cols=['#ff6f8a','#ffd447','#f7f7ef','#7ab8ff'];for(var i=0;i<4;i++){ctx.fillStyle=cols[i];ctx.fillRect(bx+5+i*6,by+12,3,3);}}
+  function drawKiosk(x,y){var bx=x*TILE,by=y*TILE;ctx.fillStyle='#8a5a34';ctx.fillRect(bx+3,by+8,TILE-6,20);ctx.fillStyle='#6a4526';ctx.fillRect(bx+3,by+24,TILE-6,4);ctx.fillStyle='#c94f4f';ctx.fillRect(bx+2,by+3,TILE-4,7);ctx.fillStyle='#f4f4ec';ctx.fillRect(bx+2,by+9,TILE-4,2);ctx.fillStyle='#f4f4ec';ctx.font='8px "DotGothic16"';ctx.fillText('購買',bx+7,by+9);}
 
   function render(){
     ctx.clearRect(0,0,cv.width,cv.height);
@@ -183,7 +191,10 @@
       else if(t=='B')ents.push({y:y,f:drawBench,x:x,yy:y});
       else if(t=='S')ents.push({y:y,f:drawSign,x:x,yy:y});
       else if(t=='R')ents.push({y:y,f:drawReception,x:x,yy:y});
+      else if(t=='H')ents.push({y:y,f:drawFlower,x:x,yy:y});
+      else if(t=='K')ents.push({y:y,f:drawKiosk,x:x,yy:y});
       else if(t=='N')ents.push({y:y,x:x,yy:y,npc:true});
+      else if(t=='C')ents.push({y:y,x:x,yy:y,npc:true,cls:true});
     }
     // player pixel pos
     var ppx, ppy;
@@ -196,7 +207,8 @@
       if(e.player){ var sc=2.0; var ox=e.px*TILE+(TILE-18*sc)/2; var oy=e.py*TILE+TILE-26*sc+4;
         ctx.save();ctx.translate(ox,oy);drawCharAt(ctx,sc,sex,wf,dir=='left'); ctx.restore(); }
       else if(e.npc){ var sc=2.0; var ox=e.x*TILE+(TILE-18*sc)/2; var oy=e.yy*TILE+TILE-26*sc+4;
-        ctx.save();ctx.translate(ox,oy);drawCharAt(ctx,sc,'t',Math.floor(performance.now()/500)%2,false);ctx.restore(); }
+        var nsex=e.cls?'m':'t';
+        ctx.save();ctx.translate(ox,oy);drawCharAt(ctx,sc,nsex,Math.floor(performance.now()/500)%2,false);ctx.restore(); }
       else e.f(e.x,e.yy);
     });
   }
@@ -261,10 +273,25 @@
   function step(){ if(held&&!moving&&!msg.classList.contains('show'))tryMove(held); render(); requestAnimationFrame(step); }
 
   // ---- char select ----
+  // shared character storage (same key as pixel.html), with safe fallback
+  var CHAR_KEY='hiroo_char';
+  function saveChar(s){try{localStorage.setItem(CHAR_KEY,s);}catch(e){}}
+  function loadChar(){try{var v=localStorage.getItem(CHAR_KEY);return v==='m'||v==='f'?v:null;}catch(e){return null;}}
+  function clearChar(){try{localStorage.removeItem(CHAR_KEY);}catch(e){}}
+
+  var csEl=document.getElementById('cs');
   var csm=document.getElementById('csm').getContext('2d'),csf=document.getElementById('csf').getContext('2d');
+  var started=false;
   function selLoop(t){var f=Math.floor(t/180)%2;csm.clearRect(0,0,112,162);csf.clearRect(0,0,112,162);drawChar(csm,6,'m',f,false);drawChar(csf,6,'f',f,false);if(!sex)requestAnimationFrame(selLoop);}
-  requestAnimationFrame(selLoop);
-  Array.prototype.forEach.call(document.querySelectorAll('#cs .o'),function(o){o.addEventListener('click',function(){sex=o.dataset.sex;document.getElementById('cs').classList.add('hide');cv.focus();requestAnimationFrame(step);});});
+  function begin(s){sex=s;saveChar(s);csEl.classList.add('hide');cv.focus();if(!started){started=true;requestAnimationFrame(step);}}
+  Array.prototype.forEach.call(document.querySelectorAll('#cs .o'),function(o){o.addEventListener('click',function(){begin(o.dataset.sex);});});
+  document.getElementById('rechar').addEventListener('click',function(){
+    clearChar();sex=null;csEl.classList.remove('hide');requestAnimationFrame(selLoop);
+  });
+
+  // boot: reuse saved character, otherwise show the selector
+  var saved=loadChar();
+  if(saved){begin(saved);} else {requestAnimationFrame(selLoop);}
 })();
 </script>
 </body>

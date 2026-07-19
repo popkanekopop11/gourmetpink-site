@@ -108,6 +108,38 @@
   .hero-spr{display:none;position:relative;z-index:2;margin-bottom:4px;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.5))}
   .party-sprites{display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;margin-bottom:14px;min-height:52px}
   .change-char{margin-top:12px;font-size:13px;color:var(--sky);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:var(--win);padding:0}
+
+  /* command layout (items / letters / recent) */
+  .cmd-layout{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start}
+  .cmd-menu{display:flex;flex-direction:column;gap:2px;padding:16px 14px}
+  .cmd-menu .crow{padding:9px 8px 9px 26px;position:relative;cursor:pointer;color:var(--white);transition:background .1s}
+  .cmd-menu .crow .cur{position:absolute;left:6px;color:var(--gold);opacity:0}
+  .cmd-menu .crow:hover{background:var(--navy2)}
+  .cmd-menu .crow.on{background:var(--navy2)}
+  .cmd-menu .crow.on .cur{opacity:1;animation:blink 1s steps(1) infinite}
+  .cmd-view{min-height:200px}
+  .cmd-view .vh{color:var(--gold);font-size:15px;margin-bottom:10px}
+  .cmd-view .nlist{display:flex;flex-direction:column;gap:9px}
+  .cmd-view .nrow{display:flex;align-items:center;gap:10px;font-size:15px}
+  .cmd-view .nrow canvas{flex:none}
+  .cmd-view .nrow .nm{color:var(--white)}
+  .cmd-view .nrow .nm .cl{color:var(--sky);font-size:13px;margin-left:6px}
+  .cmd-view .nrow .ago{margin-left:auto;color:var(--gold);font-size:13px;white-space:nowrap}
+  .cmd-view .ilist{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}
+  .cmd-view .irow{padding:7px 8px 7px 24px;position:relative;cursor:pointer;color:var(--white);transition:background .1s}
+  .cmd-view .irow .cur{position:absolute;left:6px;color:var(--gold);opacity:0}
+  .cmd-view .irow:hover{background:var(--navy2)}
+  .cmd-view .irow.on{background:var(--navy2)}
+  .cmd-view .irow.on .cur{opacity:1}
+  .cmd-view .idesc{border-top:2px dotted rgba(247,247,239,.25);padding-top:12px;font-size:15px;min-height:2.6em;color:var(--white)}
+  .cmd-view .tegami{font-size:15px}
+  .cmd-view .tegami .who{color:var(--sky);margin-bottom:4px}
+  .cmd-view .tegami .body{min-height:4.4em}
+  .cmd-view .tegami .nav{margin-top:12px;display:flex;align-items:center;gap:14px}
+  .cmd-view .tegami .nav button{font-family:var(--win);font-size:14px;color:var(--white);background:var(--navy);border:2px solid var(--white);box-shadow:0 0 0 2px var(--shadow);padding:6px 12px;cursor:pointer}
+  .cmd-view .tegami .nav button:active{transform:translateY(2px)}
+  .cmd-view .tegami .nav .pg{color:var(--gold);font-size:13px}
+  @media(max-width:560px){.cmd-layout{grid-template-columns:1fr}}
   @media(max-width:560px){
     body{font-size:16px}
     .menu .row{grid-template-columns:16px 92px 1fr;gap:6px}
@@ -166,6 +198,20 @@
         <span class="demo">※ この数字はデモ表示です（本番では自動でふえます）</span>
         <button class="change-char" id="changeChar">キャラを えらびなおす</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-title">コマンド</div>
+    <div class="cmd-layout">
+      <div class="win cmd-menu">
+        <div class="crow on" data-cmd="nakama"><span class="cur">▶</span>なかまのさいきん</div>
+        <div class="crow" data-cmd="tegami"><span class="cur">▶</span>てがみ</div>
+        <div class="crow" data-cmd="dougu"><span class="cur">▶</span>どうぐ</div>
+      </div>
+      <div class="win cmd-view" id="cmdView"></div>
     </div>
   </div>
 </section>
@@ -235,19 +281,105 @@
   var counted=false;
   function startCount(){if(counted)return;counted=true;var el=document.getElementById('cnt'),target=38,t0=null;function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1200,1);el.textContent=Math.round(p*target);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
 
+  // ---- shared character storage (localStorage, with safe fallback) ----
+  var CHAR_KEY='hiroo_char';
+  function saveChar(sex){try{localStorage.setItem(CHAR_KEY,sex);}catch(e){}}
+  function loadChar(){try{var v=localStorage.getItem(CHAR_KEY);return v==='m'||v==='f'?v:null;}catch(e){return null;}}
+  function clearChar(){try{localStorage.removeItem(CHAR_KEY);}catch(e){}}
+
+  var curSex=null;
   function choose(sex){
+    curSex=sex;saveChar(sex);
     animList=animList.filter(function(o){return o!==selM&&o!==selF;});
     overlay.classList.add('hide');
     var hc=document.getElementById('spr-hero');hc.style.display='block';add(hc,5,sex);
     var pc=document.getElementById('party');pc.innerHTML='';
     for(var i=0;i<10;i++){var cv=document.createElement('canvas');cv.width=36;cv.height=52;cv.className='sprite';pc.appendChild(cv);add(cv,2,sex);}
     startCount();
+    renderCmd(activeCmd);
   }
   Array.prototype.forEach.call(document.querySelectorAll('.cs-opt'),function(o){o.addEventListener('click',function(){choose(o.dataset.sex);});});
   document.getElementById('changeChar').addEventListener('click',function(){
+    clearChar();
     if(animList.indexOf(selM)<0)animList.push(selM,selF);
     overlay.classList.remove('hide');
   });
+
+  // ---- command UI: なかまのさいきん / てがみ / どうぐ ----
+  var view=document.getElementById('cmdView'),activeCmd='nakama';
+  var NAKAMA=[
+    {nm:'たかはし',cl:'A組',ago:'2ふん まえ'},
+    {nm:'さとう',cl:'C組',ago:'8ふん まえ'},
+    {nm:'なかむら',cl:'B組',ago:'15ふん まえ'},
+    {nm:'こばやし',cl:'D組',ago:'32ふん まえ'},
+    {nm:'わたなべ',cl:'A組',ago:'1じかん まえ'},
+    {nm:'いとう',cl:'C組',ago:'3じかん まえ'}
+  ];
+  var TEGAMI=[
+    {who:'同窓会本部より',tx:'＊ みんな、げんき にしてた？ 30さいの ふしめに、また あの内庭に あつまろう。 まってるよ！'},
+    {who:'A組・たかはしより',tx:'＊ ひさしぶり！ あのころの はなし、いっぱい しようね。 かいひは 6,000円、わすれずに〜。'},
+    {who:'せんせいより',tx:'＊ みんなが おとなに なった すがた、たのしみに しているよ。 11がつ14にち、まっている。'}
+  ];
+  var DOUGU=[
+    {nm:'がくせいしょう',tx:'＊ あのころの みぶんしょうめいしょ。 かおしゃしんが わかすぎて ちょっと はずかしい。'},
+    {nm:'そつぎょうアルバム',tx:'＊ ページを めくると、みんなの えがおが ならんでいる。 よせがきの らんが なつかしい。'},
+    {nm:'あの頃のケータイ',tx:'＊ ガラケーだ。 デコメと きせかえで、じぶんだけの 1だいに していた。'},
+    {nm:'こうばいのパン',tx:'＊ おひるの あらそいの きろく。 やきそばパンは いつも すぐ うりきれた。'},
+    {nm:'せいふくのボタン',tx:'＊ そつぎょうしきに もらった だいにボタン。 いまも だいじに とってある。'}
+  ];
+  var tegIdx=0,dogIdx=0;
+  var cmdAnim=[]; // sprites drawn inside nakama list
+
+  function esc(s){return s.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+  function renderCmd(cmd){
+    activeCmd=cmd;
+    cmdAnim=[];
+    Array.prototype.forEach.call(document.querySelectorAll('.cmd-menu .crow'),function(r){r.classList.toggle('on',r.dataset.cmd===cmd);});
+    if(cmd==='nakama'){
+      var h='<div class="vh">＊ なかまが あつまってきている……！</div><div class="nlist">';
+      for(var i=0;i<NAKAMA.length;i++){h+='<div class="nrow"><canvas class="sprite" width="30" height="44" data-i="'+i+'"></canvas><span class="nm">'+esc(NAKAMA[i].nm)+'<span class="cl">'+esc(NAKAMA[i].cl)+'</span></span><span class="ago">'+esc(NAKAMA[i].ago)+'</span></div>';}
+      h+='</div>';
+      view.innerHTML=h;
+      var sx=curSex||'m';
+      Array.prototype.forEach.call(view.querySelectorAll('.nrow canvas'),function(cv,i){
+        var alt=(i%2===0)?sx:(sx==='m'?'f':'m'); // mix so the party looks varied
+        cmdAnim.push({c:cv.getContext('2d'),s:1.6,sex:alt});
+      });
+    } else if(cmd==='tegami'){
+      renderTegami();
+    } else {
+      renderDougu();
+    }
+  }
+  function renderTegami(){
+    var t=TEGAMI[tegIdx];
+    view.innerHTML='<div class="vh">＊ てがみが とどいている。</div><div class="tegami"><div class="who">'+esc(t.who)+'</div><div class="body" id="tegBody"></div><div class="nav"><button id="tegNext">つぎ ▼</button><span class="pg">'+(tegIdx+1)+' / '+TEGAMI.length+'</span></div></div>';
+    typewrite(document.getElementById('tegBody'),t.tx);
+    document.getElementById('tegNext').addEventListener('click',function(){tegIdx=(tegIdx+1)%TEGAMI.length;renderTegami();});
+  }
+  function renderDougu(){
+    var h='<div class="vh">＊ どうぐ を しらべる。</div><div class="ilist">';
+    for(var i=0;i<DOUGU.length;i++){h+='<div class="irow'+(i===dogIdx?' on':'')+'" data-i="'+i+'"><span class="cur">▶</span>'+esc(DOUGU[i].nm)+'</div>';}
+    h+='</div><div class="idesc" id="dogDesc"></div>';
+    view.innerHTML=h;
+    Array.prototype.forEach.call(view.querySelectorAll('.irow'),function(r){r.addEventListener('click',function(){dogIdx=+r.dataset.i;renderDougu();});});
+    typewrite(document.getElementById('dogDesc'),DOUGU[dogIdx].tx);
+  }
+  var typeTimer=null;
+  function typewrite(el,text){
+    clearInterval(typeTimer);el.textContent='';var i=0;
+    typeTimer=setInterval(function(){i++;el.textContent=text.slice(0,i);if(i>=text.length)clearInterval(typeTimer);},26);
+  }
+  // draw nakama mini sprites in the shared loop
+  var origLoop=null;
+  function cmdLoop(t){var f=Math.floor(t/180)%2;for(var i=0;i<cmdAnim.length;i++){var o=cmdAnim[i];o.c.clearRect(0,0,o.c.canvas.width,o.c.canvas.height);drawChar(o.c,o.s,o.sex,f);}requestAnimationFrame(cmdLoop);}
+  requestAnimationFrame(cmdLoop);
+  Array.prototype.forEach.call(document.querySelectorAll('.cmd-menu .crow'),function(r){r.addEventListener('click',function(){renderCmd(r.dataset.cmd);});});
+
+  // ---- boot: reuse saved character if present ----
+  var saved=loadChar();
+  if(saved){choose(saved);} else {renderCmd('nakama');}
 })();
 </script>
 </body>
