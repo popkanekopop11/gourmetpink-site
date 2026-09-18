@@ -178,8 +178,11 @@
       title:"酒を抜く枠",
       sub:"夜の本番まえの枠。はしご系は外して、1杯で済む所だけ",
       note:"16:45に振る／20:15の一笑 別邸まで",
-      start:["moiwa","tvtower","aoao","chitosezuru","factory","htb"],
+      start:["moiwa","okurayama","aoao","tvtower","chitosezuru","factory"],
       pool:{
+        okurayama:{place:"大倉山ジャンプ台",cap:"往復2時間／夜間営業は9/30まで",rule:"リフトで展望台へ。18時から和傘と提灯のライトアップ。ジャンプ台の斜面を上から覗ける",hours:"〜20:30（リフト券売20:00）",end:M(18,30)},
+        akarenga:{place:"赤れんが庁舎",cap:"北3西6／徒歩",rule:"ライトアップされた庁舎。八角塔のバルコニーは別料金1,200円。白い恋人のスイーツ店も入っている",hours:"〜21:00（最終入館20:30）／300円",end:M(20,0)},
+        cocono:{place:"COCONO SUSUKINO",cap:"すすきの交差点／徒歩",rule:"ゲーセンと映画館の複合施設。道産クラフトビールを出すバーカウンターもある",hours:"〜24:00（推測）",end:M(22,0)},
         moiwa:{place:"藻岩山の夜景",cap:"市電＋シャトル／往復2時間半",rule:"山頂まで上がって夜景。3時間まるごと使う大物で、酒が完全に抜ける",hours:"上り最終21:30",end:M(19,0)},
         aoao:{place:"AOAO SAPPORO",cap:"すすきの圏／徒歩",rule:"クラゲを眺めて頭を冷やす。光るドリンクはあるが、ここは1杯まで",hours:"〜22:00（推測）",end:M(21,0)},
         nijo:{place:"二条市場",cap:"徒歩10分／すすきの圏",rule:"海鮮つまみで一杯。物販は16時で終いなので夜は場内の居酒屋へ",hours:"居酒屋は夜まで",end:M(22,0)},
@@ -219,7 +222,7 @@
 
   const COLORS = ["var(--c1)","var(--c2)","var(--c3)","var(--c4)","var(--c5)","var(--c6)"];
   const PIPS = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
-  const KEY = "asakusa-dice-v3";
+  const KEY = "asakusa-dice-v4";
 
   let mode = "out";
   let rolling = false;
