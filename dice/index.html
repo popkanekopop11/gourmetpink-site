@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f4c3bb">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23fff'/%3E%3Ccircle cx='30' cy='30' r='9' fill='%231e1e1e'/%3E%3Ccircle cx='50' cy='50' r='9' fill='%23d61f26'/%3E%3Ccircle cx='70' cy='70' r='9' fill='%231e1e1e'/%3E%3C/svg%3E">
+<title>浅草ボーイズ サイコロの旅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+  :root{
+    --ground:#f4c3bb;
+    --paper:#fbe9e6;
+    --ink:#1e1e1e;
+    --muted:#a05a52;
+    --deep:#7a4a44;
+    --red:#d61f26;
+    --white:#fff;
+    --c1:#ef9f98; --c2:#f2b96e; --c3:#cbaad9;
+    --c4:#f0d072; --c5:#9fc1e2; --c6:#b9d68d;
+    --display:"Yusei Magic","Hiragino Maru Gothic ProN",sans-serif;
+    --body:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ground);color:var(--ink);font-family:var(--body);-webkit-text-size-adjust:100%}
+  .wrap{max-width:420px;margin:0 auto;padding:14px 14px 40px;display:flex;flex-direction:column;gap:13px}
+
+  .head{display:flex;align-items:flex-start;gap:9px;padding:2px 2px 0}
+  .circ{
+    width:58px;height:58px;flex:0 0 auto;border-radius:50%;
+    background:var(--red);border:2px solid var(--white);
+    box-shadow:0 1px 3px rgba(0,0,0,.3);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--white);font-family:var(--display);font-size:12px;line-height:1.1;
+    text-align:center;transform:rotate(-8deg);
+  }
+  .htitle{flex:1;padding-top:2px;font-family:var(--display)}
+  .htitle .route{font-size:19px;line-height:1.1}
+  .htitle .main{font-size:28px;line-height:1.15}
+  .clock{font-family:var(--display);font-size:12.5px;color:var(--deep);font-variant-numeric:tabular-nums;padding:0 2px;line-height:1.4}
+
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tab{
+    font-family:var(--display);font-size:15px;line-height:1.25;
+    padding:11px 8px;border:none;border-radius:9px;
+    background:var(--paper);color:var(--deep);
+    box-shadow:0 1px 2px rgba(0,0,0,.18);cursor:pointer;text-align:center;
+  }
+  .tab small{display:block;font-size:11px;opacity:.75;margin-top:2px}
+  .tab[aria-selected="true"]{background:var(--red);color:var(--white)}
+  .tab[aria-selected="true"] small{opacity:.9}
+
+  .stage{
+    background:var(--paper);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.18);
+    padding:16px 14px 15px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .die{
+    width:104px;height:104px;border-radius:18px;background:var(--white);
+    box-shadow:0 2px 5px rgba(0,0,0,.25);
+    display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:15px;
+  }
+  .die i{width:19px;height:19px;border-radius:50%;background:var(--ink);align-self:center;justify-self:center}
+  .die i.red{background:var(--red)}
+  .die.rolling{animation:tumble .62s ease-out}
+  @keyframes tumble{
+    0%{transform:rotate(0) scale(1)}
+    35%{transform:rotate(-22deg) scale(1.1)}
+    70%{transform:rotate(16deg) scale(.96)}
+    100%{transform:rotate(0) scale(1)}
+  }
+  @media (prefers-reduced-motion:reduce){ .die.rolling{animation:none} }
+
+  .roll{
+    font-family:var(--display);font-size:21px;width:100%;
+    padding:15px 10px;border:none;border-radius:11px;
+    background:var(--red);color:var(--white);cursor:pointer;
+    box-shadow:0 2px 4px rgba(0,0,0,.22);
+  }
+  .roll:active{transform:translateY(1px)}
+  .roll:disabled{opacity:.55}
+  .roll:focus-visible,.tab:focus-visible,.mini:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+  .result{width:100%;border-radius:10px;padding:12px 13px;box-shadow:0 1px 2px rgba(0,0,0,.2);background:var(--white)}
+  .result .cap{font-size:12px;line-height:1.2;opacity:.8}
+  .result .place{font-family:var(--display);font-size:25px;line-height:1.15;margin:2px 0 3px}
+  .result .rule{font-size:12.5px;line-height:1.4}
+  .result .meta{
+    font-size:11.5px;line-height:1.4;margin-top:7px;padding-top:6px;
+    border-top:1px solid rgba(30,30,30,.18);font-variant-numeric:tabular-nums;
+  }
+  .result[hidden]{display:none}
+
+  .panel{background:var(--paper);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.18);padding:12px 13px 13px}
+  .panel h2{font-family:var(--display);font-size:16px;font-weight:400;line-height:1.3}
+  .panel .sub{font-size:11.5px;color:var(--deep);line-height:1.45;margin-top:3px}
+  .list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .item{display:flex;align-items:center;gap:9px;padding:7px 10px 7px 8px;border-radius:8px;min-height:50px}
+  .item.swap{animation:pop .45s ease-out}
+  @keyframes pop{ from{transform:scale(.94);opacity:.4} to{transform:scale(1);opacity:1} }
+  @media (prefers-reduced-motion:reduce){ .item.swap{animation:none} }
+  .pip{
+    width:34px;height:34px;flex:0 0 auto;border-radius:7px;background:var(--white);
+    display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+    padding:5px;box-shadow:0 1px 2px rgba(0,0,0,.22);
+  }
+  .pip i{width:6.5px;height:6.5px;border-radius:50%;background:var(--ink);align-self:center;justify-self:center}
+  .pip i.red{background:var(--red)}
+  .item .nm{font-family:var(--display);font-size:16px;line-height:1.2}
+  .item .hr{font-size:11px;line-height:1.3;opacity:.8;font-variant-numeric:tabular-nums}
+  .item.out{opacity:.42}
+  .item.out .nm{text-decoration:line-through}
+
+  .swaps{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+  .mini{
+    font-family:var(--display);font-size:13.5px;line-height:1.25;
+    padding:10px 6px;border:none;border-radius:8px;cursor:pointer;
+    background:var(--white);color:var(--deep);box-shadow:0 1px 2px rgba(0,0,0,.16);
+  }
+  .mini:active{transform:translateY(1px)}
+  .mini:disabled{opacity:.45;cursor:default}
+  .bench{font-size:11px;color:var(--deep);line-height:1.5;margin-top:9px}
+  .bench b{font-family:var(--display);font-weight:400;display:block;margin-bottom:2px}
+
+  .foot{font-size:11px;color:var(--deep);line-height:1.5;padding:0 3px}
+  .foot b{font-family:var(--display);font-weight:400}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="head">
+    <div class="circ">水曜<br>どうでしょう</div>
+    <div class="htitle">
+      <div class="route">浅草ボーイズ</div>
+      <div class="main">サイコロの旅</div>
+    </div>
+  </div>
+  <div class="clock" id="clock">現在時刻 --:--</div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-out" aria-selected="true">外めぐり<small>フェストを出て飲みに行く</small></button>
+    <button class="tab" role="tab" id="tab-fest" aria-selected="false">フェスト場内<small>何丁目で食うか決める</small></button>
+  </div>
+
+  <div class="stage">
+    <div class="die" id="die" aria-hidden="true"></div>
+    <button class="roll" id="roll">サイコロを振る</button>
+    <div class="result" id="result" hidden aria-live="polite"></div>
+  </div>
+
+  <div class="panel">
+    <h2 id="panel-title">いま行ける候補</h2>
+    <div class="sub" id="panel-sub"></div>
+    <ul class="list" id="list"></ul>
+    <div class="swaps">
+      <button class="mini" id="swap-one">1つ入れ替える</button>
+      <button class="mini" id="swap-all">6つ引き直す</button>
+    </div>
+    <div class="bench" id="bench"></div>
+  </div>
+
+  <p class="foot">
+    <b>営業時間について</b>　判定に使っている終了時刻は、食べログ・各公式の掲載情報と推測が混ざっています。
+    閉店間際の目が出たら、入る前に電話で確認してください。フェストは 10:00〜20:30（LO 20:00）。
+  </p>
+</div>
+
+<script>
+(function(){
+  const M = (h,m)=>h*60+(m||0);
+
+  // end = その日に「入るならここまで」の目安（分）。24時超えは翌日扱い。
+  const BOARDS = {
+    out: {
+      title:"外めぐり",
+      sub:"フェストを抜けて、夕食までの時間をつぶす枠",
+      note:"大通〜すすきの圏",
+      start:["aoao","nijo","factory","chitosezuru","tvtower","tanuki"],
+      pool:{
+        aoao:{place:"AOAO SAPPORO",cap:"すすきの圏／徒歩",rule:"水槽の前でクラゲと乾杯。17時からは光るドリンク",hours:"〜22:00（推測）",end:M(21,0)},
+        nijo:{place:"二条市場",cap:"徒歩10分／すすきの圏",rule:"海鮮つまみで一杯。物販は16時で終いなので夜は場内の居酒屋へ",hours:"居酒屋は夜まで",end:M(22,0)},
+        factory:{place:"サッポロファクトリー",cap:"徒歩15分／大通圏・屋内",rule:"ビール発祥の地で一杯。雨でも潰れない",hours:"〜20:00（推測）",end:M(19,0)},
+        chitosezuru:{place:"千歳鶴 酒ミュージアム",cap:"徒歩15分／すすきの圏",rule:"蔵の試飲。北海道しばりとそのまま噛み合う",hours:"〜18:00（推測）",end:M(17,15)},
+        tvtower:{place:"さっぽろテレビ塔",cap:"大通1丁目／徒歩",rule:"藻岩山をやめた代わりの夜景。会場の東端なので移動ゼロ",hours:"〜22:00（推測）",end:M(21,30)},
+        tanuki:{place:"狸小路 はしご",cap:"徒歩／すすきの圏",rule:"気になった店に飛び込んでもう一杯。ハズレなしの安全牌",hours:"夜通し",end:M(26,0)},
+        norbesa:{place:"ノルベサ観覧車",cap:"徒歩／すすきの圏",rule:"ビルの屋上の観覧車。ゴンドラに酒は持ち込めないので先に飲む",hours:"〜23:00（推測）",end:M(22,30)},
+        beerpark:{place:"サッポロビール園",cap:"苗穂／往復と滞在で2時間強",rule:"ジンギスカンと出来たて。遠征枠だが、しばりの本丸でもある",hours:"〜21:00（推測）",end:M(19,0)},
+        tokeidai:{place:"札幌市時計台",cap:"大通圏／徒歩",rule:"夕方までなら中に入れる。夜は外から眺めるだけ。この目を出したあなた、センスないです",hours:"入館〜17:00（推測）",end:M(16,30)},
+        yokocho:{place:"元祖さっぽろラーメン横丁",cap:"徒歩／すすきの圏",rule:"まだ食えるなら味噌。食えないなら見るだけで帰る",hours:"深夜まで",end:M(25,0)},
+        htb:{place:"HTBコーナー（地下街）",cap:"南3西4／徒歩",rule:"どうでしょうグッズの回収。市内で開いている唯一の窓口",hours:"〜20:00",end:M(19,30)},
+        jogai:{place:"場外市場",cap:"二十四軒／地下鉄15分",rule:"昼の商売なので、15時を過ぎると店じまいが始まる",hours:"〜15:00頃",end:M(14,30)},
+        sauna:{place:"すすきののサウナ",cap:"徒歩／すすきの圏",rule:"酒を抜きに行く枠。ここで抜いた分また飲める",hours:"深夜まで",end:M(24,0)},
+        konbini:{place:"コンビニで道産缶",cap:"徒歩0分",rule:"クラシックを買ってホテルで飲む。一番安いハズレ",hours:"24時間",end:M(28,0)},
+        odori:{place:"大通公園に居座る",cap:"移動なし",rule:"どこにも行かない。ベンチで飲み続ける",hours:"閉場まで",end:M(20,0)}
+      }
+    },
+    fest: {
+      title:"フェスト場内",
+      sub:"大通公園 4〜11丁目。出た丁目で食う",
+      note:"オータムフェスト 10:00〜20:30（LO20:00）",
+      start:["d4","d5","d6","d7","d8","d10"],
+      pool:{
+        d4:{place:"スイーツ＆おつまみ",cap:"4丁目／食べ歩き総合",rule:"つまみながらクラシックで乾杯",hours:"〜20:30",end:M(20,0)},
+        d5:{place:"ラーメン祭り",cap:"5丁目／粉もの・パン",rule:"味噌でシメる。まだ夜は長い",hours:"〜20:30",end:M(20,0)},
+        d6:{place:"スープカレー＆パフェ",cap:"6丁目／札幌発の食文化",rule:"スパイスで飲み直す",hours:"〜20:30",end:M(20,0)},
+        d7:{place:"ワイン・シードル・クラフト",cap:"7丁目／道産酒エリア",rule:"肴と合わせて乾杯。しばりの本丸",hours:"〜20:30",end:M(20,0)},
+        d8:{place:"市町村ブース＆地酒",cap:"8丁目／約70ブース",rule:"知らん町の銘酒を当てにいく",hours:"〜20:30",end:M(20,0)},
+        d10:{place:"牛豚鶏羊鴨ジビエ",cap:"10丁目／肉祭り",rule:"締めはやっぱりジンギスカン",hours:"〜20:30",end:M(20,0)},
+        d11:{place:"11丁目",cap:"11丁目／中身は未確認",rule:"何があるかは行ってのお楽しみ。会場の西の端",hours:"〜20:30",end:M(20,0)},
+        again:{place:"さっき食った所にもう一回",cap:"移動なし",rule:"うまかった屋台に戻る。誰が選ぶかは振った人",hours:"〜20:30",end:M(20,0)},
+        ask:{place:"隣の人のおすすめ",cap:"移動は隣まで",rule:"相席の人に聞いて、言われた物を全員が頼む",hours:"〜20:30",end:M(20,0)}
+      }
+    }
+  };
+
+  const COLORS = ["var(--c1)","var(--c2)","var(--c3)","var(--c4)","var(--c5)","var(--c6)"];
+  const PIPS = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+  const KEY = "asakusa-dice-v1";
+
+  let mode = "out";
+  let rolling = false;
+  let faces = { out:null, fest:null };
+
+  const $die=document.getElementById("die"), $roll=document.getElementById("roll"),
+        $result=document.getElementById("result"), $list=document.getElementById("list"),
+        $clock=document.getElementById("clock"), $title=document.getElementById("panel-title"),
+        $sub=document.getElementById("panel-sub"), $bench=document.getElementById("bench"),
+        $tabOut=document.getElementById("tab-out"), $tabFest=document.getElementById("tab-fest"),
+        $swapOne=document.getElementById("swap-one"), $swapAll=document.getElementById("swap-all");
+
+  function load(){
+    let saved = null;
+    try{ saved = JSON.parse(localStorage.getItem(KEY) || "null"); }catch(e){ saved = null; }
+    ["out","fest"].forEach(m=>{
+      const valid = saved && Array.isArray(saved[m]) && saved[m].length === 6
+        && saved[m].every(k => BOARDS[m].pool[k]);
+      faces[m] = valid ? saved[m].slice() : BOARDS[m].start.slice();
+    });
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(faces)); }catch(e){}
+  }
+
+  function nowMin(){
+    const d = new Date();
+    let m = d.getHours()*60 + d.getMinutes();
+    if (d.getHours() < 5) m += 24*60;
+    return m;
+  }
+  function face(m, i){ const f = BOARDS[m].pool[faces[m][i]]; return f; }
+  function alive(f){ return nowMin() <= f.end; }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function drawPips(el, n){
+    el.innerHTML = "";
+    const on = PIPS[n];
+    for (let i=0;i<9;i++){
+      const s = document.createElement("i");
+      if (!on.includes(i)) s.style.visibility = "hidden";
+      else if (n === 1) s.className = "red";
+      el.appendChild(s);
+    }
+  }
+
+  function renderList(swapped){
+    const b = BOARDS[mode];
+    $title.textContent = b.title + "の出目";
+    $sub.innerHTML = "";
+    $sub.appendChild(document.createTextNode(b.sub));
+    $sub.appendChild(document.createElement("br"));
+    $sub.appendChild(document.createTextNode(b.note));
+
+    $list.innerHTML = "";
+    faces[mode].forEach((key, i)=>{
+      const f = b.pool[key];
+      const li = document.createElement("li");
+      li.className = "item" + (alive(f) ? "" : " out") + (swapped === i ? " swap" : "");
+      li.style.background = COLORS[i];
+      const pip = document.createElement("div");
+      pip.className = "pip";
+      drawPips(pip, i+1);
+      const tx = document.createElement("div");
+      const nm = document.createElement("div");
+      nm.className = "nm"; nm.textContent = f.place;
+      const hr = document.createElement("div");
+      hr.className = "hr";
+      hr.textContent = alive(f) ? (f.cap + "／" + f.hours) : ("もう間に合わない（" + f.hours + "）");
+      tx.appendChild(nm); tx.appendChild(hr);
+      li.appendChild(pip); li.appendChild(tx);
+      $list.appendChild(li);
+    });
+
+    const benchKeys = Object.keys(b.pool).filter(k => !faces[mode].includes(k));
+    $bench.innerHTML = "";
+    const bb = document.createElement("b");
+    bb.textContent = "控え " + benchKeys.length + "件";
+    $bench.appendChild(bb);
+    $bench.appendChild(document.createTextNode(
+      benchKeys.length ? benchKeys.map(k=>b.pool[k].place).join("／") : "全部盤面に乗っています"
+    ));
+    const noBench = benchKeys.length === 0;
+    $swapOne.disabled = noBench;
+    $swapAll.disabled = noBench;
+  }
+
+  function showResult(f, n){
+    $result.hidden = false;
+    $result.style.background = COLORS[n-1];
+    $result.innerHTML = '<div class="cap"></div><div class="place"></div><div class="rule"></div><div class="meta"></div>';
+    $result.querySelector(".cap").textContent = f.cap;
+    $result.querySelector(".place").textContent = f.place;
+    $result.querySelector(".rule").textContent = f.rule;
+    $result.querySelector(".meta").textContent = "営業 " + f.hours + "　／　出目 " + n;
+  }
+
+  function roll(){
+    if (rolling) return;
+    const pool = faces[mode].map((k,i)=>({f:BOARDS[mode].pool[k], n:i+1})).filter(x=>alive(x.f));
+    if (!pool.length){
+      $result.hidden = false;
+      $result.style.background = "var(--white)";
+      $result.innerHTML = '<div class="rule" style="text-align:center;font-size:14px">この盤面は全部閉まりました。もう店で飲むしかないです。</div>';
+      return;
+    }
+    rolling = true; $roll.disabled = true;
+    $die.classList.remove("rolling"); void $die.offsetWidth; $die.classList.add("rolling");
+    let ticks = 0;
+    const spin = setInterval(()=>{
+      drawPips($die, 1 + Math.floor(Math.random()*6));
+      if (++ticks > 7){
+        clearInterval(spin);
+        const hit = pick(pool);
+        drawPips($die, hit.n);
+        showResult(hit.f, hit.n);
+        rolling = false; $roll.disabled = false;
+        $roll.textContent = "もう一回振る";
+      }
+    }, 75);
+  }
+
+  function swapOne(){
+    const b = BOARDS[mode];
+    const bench = Object.keys(b.pool).filter(k => !faces[mode].includes(k));
+    if (!bench.length) return;
+    const i = Math.floor(Math.random()*6);
+    faces[mode][i] = pick(bench);
+    save();
+    renderList(i);
+  }
+
+  function swapAll(){
+    const b = BOARDS[mode];
+    const all = Object.keys(b.pool).slice();
+    for (let i=all.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [all[i],all[j]] = [all[j],all[i]];
+    }
+    faces[mode] = all.slice(0,6);
+    save();
+    $result.hidden = true;
+    $roll.textContent = "サイコロを振る";
+    renderList();
+  }
+
+  function setMode(m){
+    mode = m;
+    $tabOut.setAttribute("aria-selected", m === "out");
+    $tabFest.setAttribute("aria-selected", m === "fest");
+    $result.hidden = true;
+    $roll.textContent = "サイコロを振る";
+    renderList();
+  }
+
+  function tick(){
+    const d = new Date();
+    $clock.textContent = "現在時刻 " + String(d.getHours()).padStart(2,"0") + ":" +
+      String(d.getMinutes()).padStart(2,"0") + "　閉まった所は自動で外れます";
+    renderList();
+  }
+
+  $tabOut.addEventListener("click", ()=>setMode("out"));
+  $tabFest.addEventListener("click", ()=>setMode("fest"));
+  $roll.addEventListener("click", roll);
+  $swapOne.addEventListener("click", swapOne);
+  $swapAll.addEventListener("click", swapAll);
+
+  load();
+  drawPips($die, 3);
+  setMode("out");
+  tick();
+  setInterval(tick, 30000);
+})();
+</script>
+</body>
+</html>
