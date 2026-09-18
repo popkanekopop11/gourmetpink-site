@@ -176,15 +176,15 @@
   const BOARDS = {
     out: {
       title:"酒を抜く枠",
-      sub:"夜の本番まえに酒を抜く枠。飲む場所は入れていません",
+      sub:"夜の本番まえの枠。はしご系は外して、1杯で済む所だけ",
       note:"16:45に振る／20:15の一笑 別邸まで",
-      start:["moiwa","tvtower","aoao","norbesa","sauna","htb"],
+      start:["moiwa","tvtower","aoao","chitosezuru","factory","htb"],
       pool:{
         moiwa:{place:"藻岩山の夜景",cap:"市電＋シャトル／往復2時間半",rule:"山頂まで上がって夜景。3時間まるごと使う大物で、酒が完全に抜ける",hours:"上り最終21:30",end:M(19,0)},
         aoao:{place:"AOAO SAPPORO",cap:"すすきの圏／徒歩",rule:"クラゲを眺めて頭を冷やす。光るドリンクはあるが、ここは1杯まで",hours:"〜22:00（推測）",end:M(21,0)},
         nijo:{place:"二条市場",cap:"徒歩10分／すすきの圏",rule:"海鮮つまみで一杯。物販は16時で終いなので夜は場内の居酒屋へ",hours:"居酒屋は夜まで",end:M(22,0)},
-        factory:{place:"サッポロファクトリー",cap:"徒歩15分／大通圏・屋内",rule:"ビール発祥の地で一杯。雨でも潰れない",hours:"〜20:00（推測）",end:M(19,0)},
-        chitosezuru:{place:"千歳鶴 酒ミュージアム",cap:"徒歩15分／すすきの圏",rule:"蔵の試飲。北海道しばりとそのまま噛み合う",hours:"〜18:00（推測）",end:M(17,15)},
+        factory:{place:"サッポロファクトリー",cap:"徒歩15分／大通圏・屋内",rule:"ビール発祥の地で一杯だけ。屋内なので雨でも潰れない",hours:"〜20:00（推測）",end:M(19,0)},
+        chitosezuru:{place:"千歳鶴 酒ミュージアム",cap:"徒歩15分／すすきの圏",rule:"蔵の試飲。量は出ないので夜に響かない。しばりとも噛み合う",hours:"〜18:00（推測）",end:M(17,15)},
         tvtower:{place:"さっぽろテレビ塔",cap:"大通1丁目／徒歩",rule:"藻岩山をやめた代わりの夜景。会場の東端なので移動ゼロ",hours:"〜22:00（推測）",end:M(21,30)},
         tanuki:{place:"狸小路 はしご",cap:"徒歩／すすきの圏",rule:"気になった店に飛び込んでもう一杯。ハズレなしの安全牌",hours:"夜通し",end:M(26,0)},
         norbesa:{place:"ノルベサ観覧車",cap:"徒歩／すすきの圏",rule:"ビルの屋上の観覧車。ゴンドラは酒を持ち込めないので、強制的に抜ける",hours:"〜23:00（推測）",end:M(22,30)},
@@ -219,7 +219,7 @@
 
   const COLORS = ["var(--c1)","var(--c2)","var(--c3)","var(--c4)","var(--c5)","var(--c6)"];
   const PIPS = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
-  const KEY = "asakusa-dice-v2";
+  const KEY = "asakusa-dice-v3";
 
   let mode = "out";
   let rolling = false;
