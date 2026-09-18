@@ -141,7 +141,7 @@
   <div class="clock" id="clock">現在時刻 --:--</div>
 
   <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="tab-out" aria-selected="true">外めぐり<small>フェストを出て飲みに行く</small></button>
+    <button class="tab" role="tab" id="tab-out" aria-selected="true">酒を抜く<small>夜の本番まえの3時間</small></button>
     <button class="tab" role="tab" id="tab-fest" aria-selected="false">フェスト場内<small>何丁目で食うか決める</small></button>
   </div>
 
@@ -175,22 +175,23 @@
   // end = その日に「入るならここまで」の目安（分）。24時超えは翌日扱い。
   const BOARDS = {
     out: {
-      title:"外めぐり",
-      sub:"フェストを抜けて、夕食までの時間をつぶす枠",
-      note:"大通〜すすきの圏",
-      start:["aoao","nijo","factory","chitosezuru","tvtower","tanuki"],
+      title:"酒を抜く枠",
+      sub:"夜の本番まえに酒を抜く枠。飲む場所は入れていません",
+      note:"16:45に振る／20:15の一笑 別邸まで",
+      start:["moiwa","tvtower","aoao","norbesa","sauna","htb"],
       pool:{
-        aoao:{place:"AOAO SAPPORO",cap:"すすきの圏／徒歩",rule:"水槽の前でクラゲと乾杯。17時からは光るドリンク",hours:"〜22:00（推測）",end:M(21,0)},
+        moiwa:{place:"藻岩山の夜景",cap:"市電＋シャトル／往復2時間半",rule:"山頂まで上がって夜景。3時間まるごと使う大物で、酒が完全に抜ける",hours:"上り最終21:30",end:M(19,0)},
+        aoao:{place:"AOAO SAPPORO",cap:"すすきの圏／徒歩",rule:"クラゲを眺めて頭を冷やす。光るドリンクはあるが、ここは1杯まで",hours:"〜22:00（推測）",end:M(21,0)},
         nijo:{place:"二条市場",cap:"徒歩10分／すすきの圏",rule:"海鮮つまみで一杯。物販は16時で終いなので夜は場内の居酒屋へ",hours:"居酒屋は夜まで",end:M(22,0)},
         factory:{place:"サッポロファクトリー",cap:"徒歩15分／大通圏・屋内",rule:"ビール発祥の地で一杯。雨でも潰れない",hours:"〜20:00（推測）",end:M(19,0)},
         chitosezuru:{place:"千歳鶴 酒ミュージアム",cap:"徒歩15分／すすきの圏",rule:"蔵の試飲。北海道しばりとそのまま噛み合う",hours:"〜18:00（推測）",end:M(17,15)},
         tvtower:{place:"さっぽろテレビ塔",cap:"大通1丁目／徒歩",rule:"藻岩山をやめた代わりの夜景。会場の東端なので移動ゼロ",hours:"〜22:00（推測）",end:M(21,30)},
         tanuki:{place:"狸小路 はしご",cap:"徒歩／すすきの圏",rule:"気になった店に飛び込んでもう一杯。ハズレなしの安全牌",hours:"夜通し",end:M(26,0)},
-        norbesa:{place:"ノルベサ観覧車",cap:"徒歩／すすきの圏",rule:"ビルの屋上の観覧車。ゴンドラに酒は持ち込めないので先に飲む",hours:"〜23:00（推測）",end:M(22,30)},
+        norbesa:{place:"ノルベサ観覧車",cap:"徒歩／すすきの圏",rule:"ビルの屋上の観覧車。ゴンドラは酒を持ち込めないので、強制的に抜ける",hours:"〜23:00（推測）",end:M(22,30)},
         beerpark:{place:"サッポロビール園",cap:"苗穂／往復と滞在で2時間強",rule:"ジンギスカンと出来たて。遠征枠だが、しばりの本丸でもある",hours:"〜21:00（推測）",end:M(19,0)},
         tokeidai:{place:"札幌市時計台",cap:"大通圏／徒歩",rule:"夕方までなら中に入れる。夜は外から眺めるだけ。この目を出したあなた、センスないです",hours:"入館〜17:00（推測）",end:M(16,30)},
         yokocho:{place:"元祖さっぽろラーメン横丁",cap:"徒歩／すすきの圏",rule:"まだ食えるなら味噌。食えないなら見るだけで帰る",hours:"深夜まで",end:M(25,0)},
-        htb:{place:"HTBコーナー（地下街）",cap:"南3西4／徒歩",rule:"どうでしょうグッズの回収。市内で開いている唯一の窓口",hours:"〜20:00",end:M(19,30)},
+        htb:{place:"HTBコーナー（地下街）",cap:"南3西4／徒歩",rule:"どうでしょうグッズの回収。市内で開いている唯一の窓口。30分で終わる",hours:"〜20:00",end:M(19,30)},
         jogai:{place:"場外市場",cap:"二十四軒／地下鉄15分",rule:"昼の商売なので、15時を過ぎると店じまいが始まる",hours:"〜15:00頃",end:M(14,30)},
         sauna:{place:"すすきののサウナ",cap:"徒歩／すすきの圏",rule:"酒を抜きに行く枠。ここで抜いた分また飲める",hours:"深夜まで",end:M(24,0)},
         konbini:{place:"コンビニで道産缶",cap:"徒歩0分",rule:"クラシックを買ってホテルで飲む。一番安いハズレ",hours:"24時間",end:M(28,0)},
@@ -218,7 +219,7 @@
 
   const COLORS = ["var(--c1)","var(--c2)","var(--c3)","var(--c4)","var(--c5)","var(--c6)"];
   const PIPS = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
-  const KEY = "asakusa-dice-v1";
+  const KEY = "asakusa-dice-v2";
 
   let mode = "out";
   let rolling = false;
